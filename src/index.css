@@ -1,0 +1,253 @@
+/* ===== DESIGN SYSTEM TOKENS — DECCAN MASALA CO. LUXURY DARK ===== */
+:root {
+  /* Dark palette */
+  --color-warm-dark: #161616;
+  --color-warm-charcoal: #121212;
+  --color-warm-surface: #1E1E1E;
+  --color-surface-card: #242424;
+
+  /* Accent palette (Warm Gold / Amber #CFA556) */
+  --color-gold: #CFA556;
+  --color-gold-hover: #E2B866;
+  --color-gold-muted: rgba(207, 165, 86, 0.2);
+  --color-gold-glow: rgba(207, 165, 86, 0.35);
+
+  /* Text colors */
+  --color-text-main: #FFFFFF;
+  --color-text-body: #EDEDED;
+  --color-text-muted: #D4D4D4;
+  --color-text-subtle: #BCBCBC;
+  --color-text-dark: #161616;
+
+  /* Borders */
+  --color-border-dark: rgba(188, 188, 188, 0.16);
+  --color-border-gold: rgba(207, 165, 86, 0.3);
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+
+  /* Fonts */
+  --font-display: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ===== BASE RESET ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 18px;
+  scroll-behavior: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-warm-dark);
+  color: var(--color-text-main);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-sand);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-terracotta);
+}
+
+/* ===== TYPOGRAPHY BASE ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* ===== SELECTION ===== */
+::selection {
+  background: rgba(201,104,26,0.2);
+  color: var(--color-ink);
+}
+
+/* ===== LINK RESET ===== */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ===== LENIS SMOOTH SCROLL ===== */
+html.lenis {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ===== HERO KINETIC TEXT ===== */
+.hero-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* ===== ACCENT TEXT ===== */
+.text-gradient {
+  color: var(--color-terracotta);
+}
+
+/* ===== SECTION DECORATIVE ===== */
+.section-rule {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.section-rule::before, .section-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-cream);
+}
+
+/* ===== MARQUEE ===== */
+@keyframes marquee-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-left 28s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes signature-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.3333%); }
+}
+.signature-marquee-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding: 12px 0 24px 0;
+  animation: signature-marquee 32s linear infinite;
+}
+
+/* ===== FLOAT ANIMATION ===== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+.float-anim {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ===== SCROLL PROGRESS CARET ===== */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.blink {
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+/* ===== FORM INPUT RESET ===== */
+input, textarea, select {
+  font-family: var(--font-body);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ===== LAZY IMAGE PLACEHOLDER ===== */
+.img-placeholder {
+  background: linear-gradient(135deg, var(--color-cream) 0%, rgba(187,169,138,0.15) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.img-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .float-anim,
+  .marquee-track,
+  .blink {
+    animation: none !important;
+  }
+  html.lenis {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.font-display { font-family: var(--font-display); }
+.font-body    { font-family: var(--font-body); }
+.font-mono    { font-family: var(--font-mono); }
+
+.text-terracotta { color: var(--color-terracotta); }
+.text-saffron    { color: var(--color-saffron); }
+.text-spice      { color: var(--color-spice); }
+.text-ink        { color: var(--color-ink); }
+.text-mist       { color: var(--color-mist); }
+.text-sand       { color: var(--color-sand); }
+.text-ivory      { color: var(--color-ivory); }
+
+.bg-cream        { background-color: var(--color-cream); }
+.bg-off-white    { background-color: var(--color-off-white); }
+.bg-warm-dark    { background-color: var(--color-warm-dark); }
+.bg-warm-charcoal { background-color: var(--color-warm-charcoal); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-terracotta);
+}
+
+/* Responsive display utilities */
+@media (max-width: 767px) {
+  .hidden.md\:flex,
+  .hidden.md\:grid {
+    display: none !important;
+  }
+  .flex.md\:hidden {
+    display: flex !important;
+  }
+}
+@media (min-width: 768px) {
+  .hidden.md\:flex {
+    display: flex !important;
+  }
+  .hidden.md\:grid {
+    display: grid !important;
+  }
+  .flex.md\:hidden {
+    display: none !important;
+  }
+}
