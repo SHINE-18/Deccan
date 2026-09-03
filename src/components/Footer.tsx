@@ -17,6 +17,7 @@ export default function Footer() {
 
   return (
     <footer
+      className="site-footer"
       style={{
         background: '#161616',
         padding: '80px 40px 40px',
@@ -24,6 +25,7 @@ export default function Footer() {
       }}
     >
       <div
+        className="footer-main-grid"
         style={{
           maxWidth: 1380,
           margin: '0 auto',
@@ -35,9 +37,10 @@ export default function Footer() {
           paddingBottom: 56,
         }}
       >
-        {/* Column 1: Brand Logo (Vertically Aligned) */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', alignSelf: 'center' }}>
+        {/* Column 1: Brand Logo */}
+        <div className="footer-col-brand" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', alignSelf: 'center' }}>
           <img
+            className="footer-logo-img"
             src="/icon2.svg"
             alt="Deccan Masala Co. Footer Logo"
             style={{
@@ -49,154 +52,159 @@ export default function Footer() {
           />
         </div>
 
-        {/* Column 2: Quick Links (340 Fill x 48) */}
-        <div>
-          <h4
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.95rem',
-              fontWeight: 500,
-              color: '#CFA556',
-              marginBottom: 20,
-              letterSpacing: '0.01em',
-            }}
-          >
-            Quick Links
-          </h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {quickLinks.map(({ label, to }) => (
-              <Link
-                key={label}
-                to={to}
-                style={{
-                  width: '100%',
-                  maxWidth: 340,
-                  height: 48,
-                  boxSizing: 'border-box',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '0 18px',
-                  borderRadius: 8,
-                  background: 'transparent',
-                  border: '1px solid rgba(188, 188, 188, 0.14)',
-                  color: '#D4D4D4',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '0.9rem',
-                  textDecoration: 'none',
-                  transition: 'all 0.25s ease',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = '#CFA556';
-                  el.style.color = '#FFFFFF';
-                  el.style.background = 'rgba(207, 165, 86, 0.06)';
-                  const icon = el.querySelector('svg');
-                  if (icon) {
-                    icon.style.transform = 'rotate(45deg) scale(1.1)';
-                    icon.style.color = '#FFFFFF';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = 'rgba(188, 188, 188, 0.14)';
-                  el.style.color = '#D4D4D4';
-                  el.style.background = 'transparent';
-                  const icon = el.querySelector('svg');
-                  if (icon) {
-                    icon.style.transform = 'rotate(0deg) scale(1)';
-                    icon.style.color = '#CFA556';
-                  }
-                }}
-              >
-                <span>{label}</span>
-                <ArrowUpRight
-                  size={16}
-                  color="#CFA556"
+        {/* Links Group (displays side-by-side on mobile, contents on desktop) */}
+        <div className="footer-links-group">
+          {/* Column 2: Quick Links */}
+          <div className="footer-col-links">
+            <h4
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.95rem',
+                fontWeight: 500,
+                color: '#CFA556',
+                marginBottom: 20,
+                letterSpacing: '0.01em',
+              }}
+            >
+              Quick Links
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {quickLinks.map(({ label, to }) => (
+                <Link
+                  key={label}
+                  to={to}
+                  className="footer-link-card"
                   style={{
-                    transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease',
+                    width: '100%',
+                    maxWidth: 340,
+                    height: 48,
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0 18px',
+                    borderRadius: 8,
+                    background: 'transparent',
+                    border: '1px solid rgba(188, 188, 188, 0.14)',
+                    color: '#D4D4D4',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '0.9rem',
+                    textDecoration: 'none',
+                    transition: 'all 0.25s ease',
                   }}
-                />
-              </Link>
-            ))}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = '#CFA556';
+                    el.style.color = '#FFFFFF';
+                    el.style.background = 'rgba(207, 165, 86, 0.06)';
+                    const icon = el.querySelector('svg');
+                    if (icon) {
+                      icon.style.transform = 'rotate(45deg) scale(1.1)';
+                      icon.style.color = '#FFFFFF';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = 'rgba(188, 188, 188, 0.14)';
+                    el.style.color = '#D4D4D4';
+                    el.style.background = 'transparent';
+                    const icon = el.querySelector('svg');
+                    if (icon) {
+                      icon.style.transform = 'rotate(0deg) scale(1)';
+                      icon.style.color = '#CFA556';
+                    }
+                  }}
+                >
+                  <span>{label}</span>
+                  <ArrowUpRight
+                    size={16}
+                    color="#CFA556"
+                    style={{
+                      transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease',
+                    }}
+                  />
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Column 3: Utility Pages (340 Fill x 48) */}
-        <div>
-          <h4
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.95rem',
-              fontWeight: 500,
-              color: '#CFA556',
-              marginBottom: 20,
-              letterSpacing: '0.01em',
-            }}
-          >
-            Utility Pages
-          </h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {utilityPages.map(({ label, to }) => (
-              <Link
-                key={label}
-                to={to}
-                style={{
-                  width: '100%',
-                  maxWidth: 340,
-                  height: 48,
-                  boxSizing: 'border-box',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '0 18px',
-                  borderRadius: 8,
-                  background: 'transparent',
-                  border: '1px solid rgba(188, 188, 188, 0.14)',
-                  color: '#D4D4D4',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '0.9rem',
-                  textDecoration: 'none',
-                  transition: 'all 0.25s ease',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = '#CFA556';
-                  el.style.color = '#FFFFFF';
-                  el.style.background = 'rgba(207, 165, 86, 0.06)';
-                  const icon = el.querySelector('svg');
-                  if (icon) {
-                    icon.style.transform = 'rotate(45deg) scale(1.1)';
-                    icon.style.color = '#FFFFFF';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = 'rgba(188, 188, 188, 0.14)';
-                  el.style.color = '#D4D4D4';
-                  el.style.background = 'transparent';
-                  const icon = el.querySelector('svg');
-                  if (icon) {
-                    icon.style.transform = 'rotate(0deg) scale(1)';
-                    icon.style.color = '#CFA556';
-                  }
-                }}
-              >
-                <span>{label}</span>
-                <ArrowUpRight
-                  size={16}
-                  color="#CFA556"
+          {/* Column 3: Utility Pages */}
+          <div className="footer-col-utility">
+            <h4
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.95rem',
+                fontWeight: 500,
+                color: '#CFA556',
+                marginBottom: 20,
+                letterSpacing: '0.01em',
+              }}
+            >
+              Utility Pages
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {utilityPages.map(({ label, to }) => (
+                <Link
+                  key={label}
+                  to={to}
+                  className="footer-link-card"
                   style={{
-                    transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease',
+                    width: '100%',
+                    maxWidth: 340,
+                    height: 48,
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0 18px',
+                    borderRadius: 8,
+                    background: 'transparent',
+                    border: '1px solid rgba(188, 188, 188, 0.14)',
+                    color: '#D4D4D4',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '0.9rem',
+                    textDecoration: 'none',
+                    transition: 'all 0.25s ease',
                   }}
-                />
-              </Link>
-            ))}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = '#CFA556';
+                    el.style.color = '#FFFFFF';
+                    el.style.background = 'rgba(207, 165, 86, 0.06)';
+                    const icon = el.querySelector('svg');
+                    if (icon) {
+                      icon.style.transform = 'rotate(45deg) scale(1.1)';
+                      icon.style.color = '#FFFFFF';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = 'rgba(188, 188, 188, 0.14)';
+                    el.style.color = '#D4D4D4';
+                    el.style.background = 'transparent';
+                    const icon = el.querySelector('svg');
+                    if (icon) {
+                      icon.style.transform = 'rotate(0deg) scale(1)';
+                      icon.style.color = '#CFA556';
+                    }
+                  }}
+                >
+                  <span>{label}</span>
+                  <ArrowUpRight
+                    size={16}
+                    color="#CFA556"
+                    style={{
+                      transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease',
+                    }}
+                  />
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Column 4: Contact Us */}
-        <div>
+        <div className="footer-col-contact">
           <h4
             style={{
               fontFamily: "'Inter', sans-serif",
@@ -313,6 +321,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div
+        className="footer-bottom-bar"
         style={{
           maxWidth: 1380,
           margin: '0 auto',

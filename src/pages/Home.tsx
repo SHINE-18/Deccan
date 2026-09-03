@@ -153,7 +153,7 @@ function KineticHero() {
           aria-label={headline}
           style={{
             fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif",
-            fontSize: 'clamp(5.4rem, 4.2vw, 3.8rem)',
+            fontSize: 'clamp(2.2rem, 5.2vw, 4.2rem)',
             fontWeight: 400,
             color: '#FFFFFF',
             lineHeight: 1.15,
@@ -290,6 +290,7 @@ function HeritageSection() {
   return (
     <section
       id="heritage"
+      className="heritage-grid"
       aria-labelledby="heritage-heading"
       style={{
         padding: 'clamp(60px, 8vw, 120px) clamp(20px, 5vw, 80px)',
@@ -677,9 +678,10 @@ function FeatureGrid() {
         </ScrollReveal>
 
         <div
+          className="features-grid-container"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
             gap: 28,
           }}
         >

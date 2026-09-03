@@ -594,14 +594,17 @@ export default function Contact() {
       </section>
 
       {/* Form + Info Grid */}
-      <section style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: 'clamp(40px, 6vw, 80px) clamp(16px, 4vw, 60px)',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 32,
-      }}>
+      <section
+        className="contact-grid"
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: 'clamp(40px, 6vw, 80px) clamp(16px, 4vw, 60px)',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 32,
+        }}
+      >
         <ScrollReveal direction="left" delay={0.1} style={{ height: '100%' }}>
           <ContactInfoCard />
         </ScrollReveal>

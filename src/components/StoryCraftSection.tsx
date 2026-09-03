@@ -222,7 +222,7 @@ export default function StoryCraftSection({
           position: 'relative',
           zIndex: 1,
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
           gap: 'clamp(36px, 5vw, 64px)',
           alignItems: 'center',
         }}

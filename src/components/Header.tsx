@@ -35,10 +35,7 @@ export default function Header() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+      <header
         style={{
           position: 'fixed',
           top: 0,
@@ -50,11 +47,12 @@ export default function Header() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 clamp(20px, 5vw, 64px)',
-          transition: 'background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease',
-          background: scrolled ? 'rgba(22, 22, 22, 0.92)' : 'rgba(22, 22, 22, 0.4)',
-          borderBottom: scrolled ? '1px solid rgba(207, 165, 86, 0.3)' : '1px solid rgba(255, 255, 255, 0.06)',
-          boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.4)' : 'none',
-          backdropFilter: 'blur(16px)',
+          transition: 'background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+          background: scrolled ? 'rgba(20, 20, 20, 0.96)' : 'rgba(20, 20, 20, 0.82)',
+          borderBottom: scrolled ? '1px solid rgba(207, 165, 86, 0.35)' : '1px solid rgba(207, 165, 86, 0.15)',
+          boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.5)' : '0 2px 10px rgba(0,0,0,0.25)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
         }}
       >
         {/* Logo Left */}
@@ -70,7 +68,7 @@ export default function Header() {
             alignItems: 'center',
             gap: 40,
           }}
-          className="hidden md:flex"
+          className="header-desktop-nav hidden md:flex"
         >
           {navLinks.map(link => {
             const active = isActive(link.to);
@@ -114,7 +112,7 @@ export default function Header() {
 
         {/* Right CTA Button */}
         <div style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', gap: 16 }}>
-          <MagneticButton className="hidden md:flex">
+          <MagneticButton className="header-desktop-cta hidden md:flex">
             <Link
               to="/contact"
               aria-label="Contact us"
@@ -164,89 +162,157 @@ export default function Header() {
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             onClick={() => setMobileOpen(!mobileOpen)}
             style={{
-              background: 'none',
-              border: 'none',
+              background: mobileOpen ? '#CFA556' : 'rgba(35, 35, 35, 0.85)',
+              border: '1px solid rgba(207, 165, 86, 0.4)',
+              borderRadius: 8,
               cursor: 'pointer',
-              color: '#FFFFFF',
+              color: mobileOpen ? '#161616' : '#CFA556',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: 4,
+              width: 42,
+              height: 42,
+              padding: 0,
+              boxShadow: '0 2px 12px rgba(0, 0, 0, 0.4)',
+              transition: 'all 0.25s ease',
             }}
-            className="flex md:hidden"
+            className="header-mobile-toggle flex md:hidden"
           >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
-      </motion.header>
+      </header>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Upper Half Dropdown Menu & Backdrop */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 190,
-              background: 'rgba(22, 22, 22, 0.98)',
-              backdropFilter: 'blur(20px)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 40,
-              paddingTop: 64,
-            }}
-          >
-            {navLinks.map((link, i) => (
+          <>
+            {/* Dimmed backdrop overlay covering the lower half and screen */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setMobileOpen(false)}
+              style={{
+                position: 'fixed',
+                top: 76,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 180,
+                background: 'rgba(0, 0, 0, 0.65)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
+              }}
+            />
+
+            {/* Upper Half Panel sliding down from navbar */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
+              style={{
+                position: 'fixed',
+                top: 76,
+                left: 0,
+                right: 0,
+                maxHeight: 'calc(55vh)',
+                zIndex: 190,
+                background: 'rgba(18, 18, 18, 0.98)',
+                backdropFilter: 'blur(24px)',
+                WebkitBackdropFilter: 'blur(24px)',
+                borderBottom: '1px solid rgba(207, 165, 86, 0.3)',
+                boxShadow: '0 24px 48px rgba(0, 0, 0, 0.75)',
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '24px clamp(20px, 5vw, 40px) 28px',
+                boxSizing: 'border-box',
+                overflowY: 'auto',
+              }}
+            >
+              {/* Nav links */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {navLinks.map((link, i) => {
+                  const active = isActive(link.to);
+                  return (
+                    <motion.div
+                      key={link.to}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 + i * 0.05 }}
+                    >
+                      <Link
+                        to={link.to}
+                        onClick={() => setMobileOpen(false)}
+                        style={{
+                          fontFamily: "'Italiana', 'GT Sectra', 'Fraunces', serif",
+                          fontSize: '1.4rem',
+                          fontWeight: active ? 600 : 400,
+                          color: active ? '#CFA556' : '#FFFFFF',
+                          letterSpacing: '0.02em',
+                          textDecoration: 'none',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '10px 0',
+                          borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+                          transition: 'color 0.2s ease',
+                        }}
+                      >
+                        <span>{link.label}</span>
+                        {active && (
+                          <span
+                            style={{
+                              width: 6,
+                              height: 6,
+                              borderRadius: '50%',
+                              background: '#CFA556',
+                              boxShadow: '0 0 8px #CFA556',
+                            }}
+                          />
+                        )}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Contact Button */}
               <motion.div
-                key={link.to}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + i * 0.08 }}
+                transition={{ delay: 0.22 }}
+                style={{ marginTop: 22 }}
               >
                 <Link
-                  to={link.to}
+                  to="/contact"
+                  onClick={() => setMobileOpen(false)}
                   style={{
-                    fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
-                    fontSize: '2.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
+                    padding: '12px 24px',
+                    borderRadius: 6,
+                    background: '#CFA556',
+                    color: '#161616',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '0.9rem',
                     fontWeight: 600,
-                    color: isActive(link.to) ? '#CFA556' : '#FFFFFF',
-                    letterSpacing: '-0.02em',
+                    letterSpacing: '0.02em',
+                    textDecoration: 'none',
+                    boxShadow: '0 4px 14px rgba(207, 165, 86, 0.3)',
+                    width: '100%',
+                    boxSizing: 'border-box',
                   }}
                 >
-                  {link.label}
+                  Contact Us <ArrowUpRight size={15} />
                 </Link>
               </motion.div>
-            ))}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <Link
-                to="/contact"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '12px 32px',
-                  borderRadius: 6,
-                  background: '#CFA556',
-                  color: '#161616',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                }}
-              >
-                Contact Us <ArrowUpRight size={16} />
-              </Link>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

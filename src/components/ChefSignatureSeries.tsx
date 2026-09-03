@@ -11,6 +11,7 @@ export default function ChefSignatureSeries() {
   return (
     <section
       id="chef-signature-series"
+      className="chef-signature-section"
       aria-labelledby="chef-signature-heading"
       style={{
         position: 'relative',
@@ -63,6 +64,7 @@ export default function ChefSignatureSeries() {
         }}
       >
         <div
+          className="chef-signature-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 480px), 1fr))',
