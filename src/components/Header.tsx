@@ -167,7 +167,7 @@ export default function Header() {
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: '#1C1A17',
+              color: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -212,7 +212,7 @@ export default function Header() {
                 <Link
                   to={link.to}
                   style={{
-                    fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+                    fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                     fontSize: '2.5rem',
                     fontWeight: 600,
                     color: isActive(link.to) ? '#CFA556' : '#FFFFFF',

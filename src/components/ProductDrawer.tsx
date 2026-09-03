@@ -188,7 +188,7 @@ export default function ProductDrawer({ product, onClose, onReserve }: ProductDr
               </div>
               <h2
                 style={{
-                  fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+                  fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                   fontSize: '2.2rem',
                   fontWeight: 600,
                   color: '#FFFFFF',
@@ -226,17 +226,17 @@ export default function ProductDrawer({ product, onClose, onReserve }: ProductDr
                 <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.65rem', color: '#BCBCBC', display: 'block', marginBottom: 4 }}>
                   NET PRICE
                 </span>
-                <span style={{ fontFamily: "'Fraunces', serif", fontSize: '1.2rem', fontWeight: 600, color: '#CFA556' }}>
+                <span style={{ fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", fontSize: '1.2rem', fontWeight: 600, color: '#CFA556' }}>
                   {product.price || '$14'}
                 </span>
               </div>
 
               <div>
                 <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.65rem', color: '#BCBCBC', display: 'block', marginBottom: 4 }}>
-                  ENERGY
+                  NET WEIGHT
                 </span>
-                <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.95rem', fontWeight: 600, color: '#FFFFFF' }}>
-                  {product.kcal ? `${product.kcal} kcal` : '320 kcal'}
+                <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.92rem', fontWeight: 600, color: '#FFFFFF' }}>
+                  {product.weight || '500g / 1 kg'}
                 </span>
               </div>
 
@@ -262,7 +262,7 @@ export default function ProductDrawer({ product, onClose, onReserve }: ProductDr
 
             {/* Story & Flavor Notes */}
             <div>
-              <h4 style={{ fontFamily: "'Fraunces', serif", fontSize: '1.1rem', color: '#CFA556', marginBottom: 8 }}>
+              <h4 style={{ fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", fontSize: '1.1rem', color: '#CFA556', marginBottom: 8 }}>
                 Craft Formulation & Tasting Notes
               </h4>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.88rem', color: '#D4D4D4', lineHeight: 1.65 }}>

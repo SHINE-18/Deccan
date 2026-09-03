@@ -1,184 +1,358 @@
 // src/pages/Products.tsx
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
 import { categories, products, type Product } from '../data/products';
-import ProductModal from '../components/ProductModal';
 import ProductDrawer from '../components/ProductDrawer';
-import ScrollStickyShowcase from '../components/ScrollStickyShowcase';
+import CategoryIcon from '../components/CategoryIcon';
 import Footer from '../components/Footer';
-import ScrollReveal from '../components/ScrollReveal';
+
+// Responsive hook — updates on resize
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return isMobile;
+}
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [activeCategory, setActiveCategory] = useState(categories[0]?.id ?? '');
+  const [hoveredButton, setHoveredButton] = useState<string | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const isMobile = useIsMobile();
+
+  const categoryRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  const scrollToCategory = (catId: string) => {
+    setActiveCategory(catId);
+    const el = categoryRefs.current[catId];
+    if (el) {
+      const offset = 90;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = el.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Intersection Observer for scroll spy functionality
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-120px 0px -50% 0px',
+      threshold: 0.05,
+    };
+
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveCategory(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, observerOptions);
+
+    categories.forEach((cat) => {
+      const el = categoryRefs.current[cat.id];
+      if (el) {
+        observer.observe(el);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
-    <div style={{ background: '#161616', minHeight: '100vh', color: '#FFFFFF', paddingTop: 80 }}>
+    <div style={{ background: '#121212', minHeight: '100vh', color: '#FFFFFF', paddingTop: 80, fontFamily: "'Inter', sans-serif" }}>
 
-      {/* Hero Band — dark luxury bg */}
-      <section
-        aria-label="Products hero"
-        style={{
-          position: 'relative',
-          padding: 'clamp(60px, 8vw, 100px) 40px clamp(40px, 6vw, 80px)',
-          background: '#161616',
-          textAlign: 'center',
-          overflow: 'hidden',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-        }}
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          style={{ position: 'relative', zIndex: 1, maxWidth: 640, margin: '0 auto' }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, marginBottom: 16 }}>
-            <div style={{ height: 1, width: 60, background: 'linear-gradient(90deg, transparent, rgba(207, 165, 86, 0.5))' }} />
-            <span style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '0.6rem',
-              letterSpacing: '0.25em',
-              textTransform: 'uppercase',
-              color: '#CFA556',
-            }}>
-              Deccan Masala Co.
-            </span>
-            <div style={{ height: 1, width: 60, background: 'linear-gradient(90deg, rgba(207, 165, 86, 0.5), transparent)' }} />
+      {/* Hero Header with background image */}
+      <div style={{ position: 'relative', padding: '100px 24px 80px 24px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', textAlign: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(18, 18, 18, 0.4) 0%, #121212 100%)', zIndex: 1 }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.5)', zIndex: 1 }} />
+          <img
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, filter: 'brightness(75%) grayscale(30%)' }}
+            src="/heritage-lifestyle.png"
+            alt="Spice background"
+          />
+        </div>
+
+        <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+            <div style={{ width: 80, height: 1, background: '#CFA556', opacity: 0.3 }} />
+            <h1 style={{ color: '#CFA556', fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", textTransform: 'capitalize', fontWeight: 'normal', margin: 0, letterSpacing: '0.02em' }}>
+              Our <span style={{ fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif", fontStyle: 'italic', color: '#FFF2C6', fontWeight: 400 }}>Spice</span> Collection
+            </h1>
+            <div style={{ width: 80, height: 1, background: '#CFA556', opacity: 0.3 }} />
+          </div>
+          <div style={{ maxWidth: 610 }}>
+            <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>
+              Expertly blended using the finest ingredients for rich aroma and exceptional taste
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content Area */}
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '40px 24px 80px 24px' }}>
+        <div style={{ width: '100%', maxWidth: 1200, display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 40, alignItems: 'flex-start' }}>
+
+          {/* Left Category Sidebar */}
+          <div style={{
+            width: isMobile ? '100%' : '260px',
+            display: 'flex',
+            flexDirection: isMobile ? 'row' : 'column',
+            flexWrap: isMobile ? 'wrap' : 'nowrap',
+            gap: isMobile ? 8 : 12,
+            position: isMobile ? 'static' : 'sticky',
+            top: 110,
+            flexShrink: 0,
+          }}>
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              const isHovered = hoveredButton === cat.id;
+
+              const buttonStyle = isActive
+                ? {
+                    padding: isMobile ? '8px 12px' : '10px 16px',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    border: '1px solid #E5C29B',
+                    background: '#E5C29B',
+                    color: '#121212',
+                    cursor: 'pointer',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: isMobile ? '0.78rem' : '0.88rem',
+                    fontWeight: 600,
+                    transition: 'all 0.3s ease',
+                    textAlign: 'left' as const,
+                    width: isMobile ? 'auto' : '100%',
+                    flexShrink: 0,
+                  }
+                : {
+                    padding: isMobile ? '8px 12px' : '10px 16px',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    border: isHovered ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)',
+                    background: 'transparent',
+                    color: isHovered ? '#FFFFFF' : '#C4C4C4',
+                    cursor: 'pointer',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: isMobile ? '0.78rem' : '0.88rem',
+                    fontWeight: 500,
+                    transition: 'all 0.3s ease',
+                    textAlign: 'left' as const,
+                    width: isMobile ? 'auto' : '100%',
+                    flexShrink: 0,
+                  };
+
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => scrollToCategory(cat.id)}
+                  onMouseEnter={() => setHoveredButton(cat.id)}
+                  onMouseLeave={() => setHoveredButton(null)}
+                  style={buttonStyle}
+                >
+                  <div style={{
+                    width: 26,
+                    height: 26,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}>
+                    <CategoryIcon
+                      categoryId={cat.id}
+                      size={20}
+                      color={isActive ? '#121212' : isHovered ? '#FFFFFF' : '#CFA556'}
+                    />
+                  </div>
+                  <span style={{ fontSize: isMobile ? '0.78rem' : '0.88rem', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+                    {cat.label}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
-          <h1 style={{
-            fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
-            fontSize: 'clamp(2.5rem, 6vw, 4.2rem)',
-            fontWeight: 500,
-            color: '#FFFFFF',
-            letterSpacing: '-0.03em',
-            lineHeight: 1.05,
-            marginBottom: 16,
-          }}>
-            Our Spice Collection
-          </h1>
-          <p style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: '0.95rem',
-            color: '#D4D4D4',
-            marginBottom: 28,
-            lineHeight: 1.65,
-          }}>
-            Expertly blended using the finest ingredients for rich aroma and exceptional taste.
-          </p>
+          {/* Vertical Divider line — desktop only */}
+          {!isMobile && (
+            <div style={{ width: 1, alignSelf: 'stretch', background: 'rgba(255, 255, 255, 0.1)', minHeight: '60vh' }} />
+          )}
 
-        </motion.div>
-      </section>
+          {/* Right Product Sections List */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 48, width: '100%', minWidth: 0 }}>
+            {categories.map((cat) => {
+              const categoryProducts = products.filter(p => p.category === cat.id);
 
-      {/* Apple TV 4K Scroll-Sticky Showcase */}
-      <ScrollStickyShowcase categories={categories} products={products} onSelectProduct={setSelectedProduct} />
-      {/* Quick View Modal */}
-      <ProductModal
-        product={selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-      />
+              return (
+                <div
+                  key={cat.id}
+                  id={cat.id}
+                  ref={(el) => { categoryRefs.current[cat.id] = el; }}
+                  style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 24, scrollMarginTop: 110 }}
+                >
+                  {/* Category Title Header */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 24, overflow: 'hidden' }}>
+                    <h2 style={{ color: '#CFA556', fontSize: '1.4rem', fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", textTransform: 'capitalize', fontWeight: 'normal', margin: 0, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+                      {cat.label}
+                    </h2>
+                    <div style={{ flex: 1, height: 1, background: 'rgba(255, 255, 255, 0.1)' }} />
+                  </div>
 
-      {/* End-of-Page CTA — dark luxury bg */}
-      <section
-        aria-label="Custom spice reserve CTA"
-        style={{
-          position: 'relative',
-          padding: 'clamp(80px, 10vw, 120px) 40px',
-          background: '#161616',
-          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-          textAlign: 'center',
-          overflow: 'hidden',
-        }}
-      >
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 720, margin: '0 auto' }}>
-          <ScrollReveal direction="up">
-            <span style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '0.65rem',
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: '#CFA556',
-              display: 'block',
-              marginBottom: 12,
-            }}>
-              Master Blenders Reserve
-            </span>
+                  {/* Category Products */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%' }}>
+                    {categoryProducts.map((product) => {
+                      const isHovered = hoveredCard === product.id;
 
-            <h2 style={{
-              fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
-              fontSize: 'clamp(2rem, 4.5vw, 3.2rem)',
-              fontWeight: 500,
-              color: '#FFFFFF',
-              lineHeight: 1.15,
-              marginBottom: 16,
-            }}>
-              Crafted for Perfection, <br />
-              <em style={{ color: '#CFA556', fontStyle: 'italic' }}>Available for Reserve</em>
-            </h2>
+                      return (
+                        <div
+                          key={product.id}
+                          onClick={() => setSelectedProduct(product)}
+                          onMouseEnter={() => setHoveredCard(product.id)}
+                          onMouseLeave={() => setHoveredCard(null)}
+                          style={{
+                            width: '100%',
+                            minHeight: isMobile ? 'auto' : 220,
+                            position: 'relative',
+                            borderRadius: '4px',
+                            border: isHovered ? '1px solid rgba(207, 165, 86, 0.4)' : '1px solid rgba(255, 255, 255, 0.1)',
+                            display: 'flex',
+                            flexDirection: isMobile ? 'column' : 'row',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center',
+                            overflow: 'hidden',
+                            background: isHovered ? 'rgba(30, 30, 30, 0.9)' : '#1E1E1E',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                          }}
+                        >
+                          {/* Image Column */}
+                          <div style={{
+                            position: isMobile ? 'relative' : 'absolute',
+                            left: 0,
+                            top: 0,
+                            width: isMobile ? '100%' : '60%',
+                            height: isMobile ? 200 : '100%',
+                            overflow: 'hidden',
+                            zIndex: 1,
+                            flexShrink: 0,
+                          }}>
+                            <img
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                                transition: 'transform 0.7s ease',
+                              }}
+                              src={product.image}
+                              alt={product.name}
+                            />
+                            <div style={{
+                              position: 'absolute',
+                              inset: 0,
+                              background: isMobile
+                                ? 'linear-gradient(to top, #1E1E1E 0%, transparent 100%)'
+                                : 'linear-gradient(to right, transparent 20%, #1E1E1E 95%)',
+                              pointerEvents: 'none',
+                            }} />
+                          </div>
 
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.95rem',
-              color: '#D4D4D4',
-              lineHeight: 1.65,
-              marginBottom: 36,
-              maxWidth: 540,
-              margin: '0 auto 36px',
-            }}>
-              Require custom grind profiles or bespoke spice formulation for fine dining? Partner directly with our royal heritage spice lab.
-            </p>
+                          {/* Right Content Column */}
+                          <div style={{
+                            width: isMobile ? '100%' : '50%',
+                            padding: 24,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 10,
+                            zIndex: 10,
+                            background: 'transparent',
+                          }}>
+                            {/* Tags */}
+                            {product.tags && product.tags.length > 0 && (
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                {product.tags.map((tag) => (
+                                  <span key={tag} style={{
+                                    fontFamily: "'Courier Prime', monospace",
+                                    fontSize: '0.6rem',
+                                    letterSpacing: '0.12em',
+                                    textTransform: 'uppercase',
+                                    color: '#CFA556',
+                                    background: 'rgba(207, 165, 86, 0.12)',
+                                    border: '1px solid rgba(207, 165, 86, 0.25)',
+                                    borderRadius: 3,
+                                    padding: '3px 8px',
+                                  }}>{tag}</span>
+                                ))}
+                              </div>
+                            )}
 
-            <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <motion.a
-                href="/contact"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '14px 32px',
-                  borderRadius: 6,
-                  background: '#CFA556',
-                  color: '#161616',
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 600,
-                  fontSize: '0.88rem',
-                  textDecoration: 'none',
-                  transition: 'background 0.2s ease',
-                  boxShadow: '0 4px 15px rgba(207, 165, 86, 0.25)',
-                }}
-              >
-                Inquire Wholesale &amp; Reserve
-              </motion.a>
+                            <div style={{ width: '100%', height: 1, background: 'rgba(255, 255, 255, 0.1)', margin: '2px 0' }} />
 
-              <motion.a
-                href="/#heritage"
-                whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.08)' }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '14px 28px',
-                  borderRadius: 6,
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: '#FFFFFF',
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 500,
-                  fontSize: '0.88rem',
-                  textDecoration: 'none',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                Explore Heritage Story
-              </motion.a>
-            </div>
-          </ScrollReveal>
+                            {/* Title & Description */}
+                            <div>
+                              <h3 style={{
+                                color: isHovered ? '#FFFFFF' : '#CFA556',
+                                fontSize: '1.3rem',
+                                fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
+                                textTransform: 'capitalize',
+                                fontWeight: 'normal',
+                                margin: '0 0 8px 0',
+                                transition: 'color 0.3s ease',
+                              }}>
+                                {product.name}
+                              </h3>
+                              <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.85rem', lineHeight: 1.6, margin: 0 }}>
+                                {product.description}
+                              </p>
+                            </div>
+
+
+
+                            {/* View Details CTA */}
+                            <div style={{ marginTop: 8 }}>
+                              <span style={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: '0.78rem',
+                                color: isHovered ? '#CFA556' : 'rgba(255,255,255,0.35)',
+                                letterSpacing: '0.06em',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 6,
+                                transition: 'color 0.3s ease',
+                              }}>
+                                View Details →
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
         </div>
-      </section>
+      </div>
 
-      {/* Deep-Dive Product Case Study Drawer */}
+      {/* Product details drawer */}
       <ProductDrawer
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}

@@ -75,7 +75,7 @@ export default function ProductCard({ product, index = 0, onSelect }: ProductCar
           />
         ) : (
           <span style={{
-            fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+            fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
             fontSize: '1.8rem',
             fontWeight: 700,
             color: '#CFA556',
@@ -117,7 +117,7 @@ export default function ProductCard({ product, index = 0, onSelect }: ProductCar
                 borderRadius: 4,
                 background: 'rgba(207, 165, 86, 0.1)',
                 border: '1px solid rgba(207, 165, 86, 0.25)',
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'Courier Prime', monospace",
                 fontSize: '0.68rem',
                 letterSpacing: '0.08em',
                 color: '#CFA556',
@@ -132,7 +132,7 @@ export default function ProductCard({ product, index = 0, onSelect }: ProductCar
             <span
               style={{
                 marginLeft: 'auto',
-                fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+                fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                 fontSize: '1.25rem',
                 fontWeight: 700,
                 color: '#CFA556',
@@ -145,7 +145,7 @@ export default function ProductCard({ product, index = 0, onSelect }: ProductCar
 
         {/* Name */}
         <h3 style={{
-          fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+          fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
           fontSize: '1.25rem',
           fontWeight: 600,
           color: '#FFFFFF',

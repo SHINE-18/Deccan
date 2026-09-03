@@ -373,7 +373,7 @@ export default function ScrollStickyShowcase({ categories, products, onSelectPro
                 {/* Name */}
                 <h2
                   style={{
-                    fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+                    fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                     fontSize: 'clamp(2.2rem, 4vw, 3.6rem)',
                     fontWeight: 400,
                     color: '#FFFFFF',
@@ -464,7 +464,7 @@ export default function ScrollStickyShowcase({ categories, products, onSelectPro
                       </span>
                       <span
                         style={{
-                          fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+                          fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                           fontSize: '1rem',
                           fontStyle: 'italic',
                           color: '#CFA556',
@@ -521,7 +521,7 @@ export default function ScrollStickyShowcase({ categories, products, onSelectPro
                         </span>
                         <span
                           style={{
-                            fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+                            fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                             fontSize: '1.55rem',
                             fontWeight: 700,
                             color: '#CFA556',

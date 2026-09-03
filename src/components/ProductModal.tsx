@@ -159,7 +159,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               {/* Title & Price */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
                 <h2 style={{
-                  fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+                  fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                   fontSize: '1.8rem',
                   fontWeight: 600,
                   color: '#FFFFFF',
@@ -168,7 +168,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   {product.name}
                 </h2>
                 {product.price && (
-                  <span style={{ fontFamily: "'Fraunces', 'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 700, color: '#CFA556' }}>
+                  <span style={{ fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", fontSize: '1.6rem', fontWeight: 700, color: '#CFA556' }}>
                     {product.price}
                   </span>
                 )}
@@ -222,7 +222,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#CFA556', display: 'block', marginBottom: 4 }}>
                     Tasting Notes
                   </span>
-                  <p style={{ fontFamily: "'Fraunces', 'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '0.95rem', color: '#FFFFFF' }}>
+                  <p style={{ fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", fontStyle: 'italic', fontSize: '0.95rem', color: '#FFFFFF' }}>
                     "{product.tastingNotes}"
                   </p>
                 </div>

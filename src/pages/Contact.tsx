@@ -58,9 +58,11 @@ function ContactInfoCard() {
       display: 'flex',
       flexDirection: 'column',
       gap: 24,
+      height: '100%',
+      boxSizing: 'border-box',
     }}>
       <h2 style={{
-        fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+        fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
         fontSize: '1.6rem',
         fontWeight: 600,
         color: '#FFFFFF',
@@ -254,16 +256,41 @@ function ContactForm() {
 
     setLoading(true);
     try {
-      await new Promise<void>(resolve => setTimeout(resolve, 1500));
-      console.log('Form submitted:', form);
-      setToast({ message: 'Message sent! We\'ll get back to you within 24 hours.', type: 'success' });
-      setForm({ fullName: '', email: '', phone: '', category: '', subject: '', message: '' });
-    } catch {
-      setToast({ message: 'Something went wrong. Please try again.', type: 'error' });
+      // Web3Forms integration — replace with your key from https://web3forms.com
+      const WEB3FORMS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY';
+
+      const payload = {
+        access_key: WEB3FORMS_KEY,
+        name: form.fullName,
+        email: form.email,
+        phone: form.phone || 'Not provided',
+        subject: `[Deccan Masala] ${form.subject}`,
+        message: `Category: ${form.category}\n\n${form.message}`,
+        from_name: 'Deccan Masala Co. Website',
+      };
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setToast({ message: "Message sent! We'll get back to you within 24 hours.", type: 'success' });
+        setForm({ fullName: '', email: '', phone: '', category: '', subject: '', message: '' });
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
+    } catch (err) {
+      console.error('Form submission error:', err);
+      setToast({ message: 'Something went wrong. Please try again or email us directly.', type: 'error' });
     } finally {
       setLoading(false);
     }
   };
+
 
   const inputStyle = (hasError: boolean): React.CSSProperties => ({
     width: '100%',
@@ -306,9 +333,11 @@ function ContactForm() {
         border: '1px solid rgba(188, 188, 188, 0.16)',
         borderRadius: 16,
         padding: 'clamp(24px, 4vw, 40px)',
+        height: '100%',
+        boxSizing: 'border-box',
       }}>
         <h2 style={{
-          fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+          fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
           fontSize: '1.6rem',
           fontWeight: 600,
           color: '#FFFFFF',
@@ -541,7 +570,7 @@ export default function Contact() {
             Reach Out
           </span>
           <h1 style={{
-            fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+            fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
             fontSize: 'clamp(2.5rem, 6vw, 4.2rem)',
             fontWeight: 500,
             color: '#FFFFFF',
@@ -572,12 +601,11 @@ export default function Contact() {
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         gap: 32,
-        alignItems: 'start',
       }}>
-        <ScrollReveal direction="left" delay={0.1}>
+        <ScrollReveal direction="left" delay={0.1} style={{ height: '100%' }}>
           <ContactInfoCard />
         </ScrollReveal>
-        <ScrollReveal direction="right" delay={0.2}>
+        <ScrollReveal direction="right" delay={0.2} style={{ height: '100%' }}>
           <ContactForm />
         </ScrollReveal>
       </section>

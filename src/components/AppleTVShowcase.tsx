@@ -76,7 +76,7 @@ export default function AppleTVShowcase({ onSelectProduct }: AppleTVShowcaseProp
           </div>
           <h2
             style={{
-              fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+              fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
               fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)',
               fontWeight: 500,
               color: '#FFFFFF',
@@ -225,7 +225,7 @@ export default function AppleTVShowcase({ onSelectProduct }: AppleTVShowcaseProp
                 {product.price && (
                   <span
                     style={{
-                      fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+                      fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                       fontSize: '1.2rem',
                       fontWeight: 700,
                       color: '#CFA556',
@@ -265,7 +265,7 @@ export default function AppleTVShowcase({ onSelectProduct }: AppleTVShowcaseProp
               <div style={{ zIndex: 2 }}>
                 <h3
                   style={{
-                    fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+                    fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                     fontSize: '1.3rem',
                     fontWeight: 600,
                     color: '#FFFFFF',

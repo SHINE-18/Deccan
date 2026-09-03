@@ -3,14 +3,10 @@ import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
 
-// Direct copy of AI generated images to public directory
+// Direct copy of images if needed
 try {
-  const bDir = 'C:/Users/shine/.gemini/antigravity-ide/brain/644e3858-bb27-42c6-b0b4-b75b07301e60';
   const pDir = path.resolve(__dirname, 'public');
   if (!fs.existsSync(pDir)) fs.mkdirSync(pDir, { recursive: true });
-  fs.copyFileSync(path.join(bDir, 'hero_spice_jar_1785764331524.png'), path.join(pDir, 'hero-spice-jar.png'));
-  fs.copyFileSync(path.join(bDir, 'heritage_lifestyle_1785764345530.png'), path.join(pDir, 'heritage-lifestyle.png'));
-  fs.copyFileSync(path.join(bDir, 'reserve_experience_1785764359760.png'), path.join(pDir, 'reserve-experience.png'));
 
   const sigDir = path.resolve(__dirname, 'public/Images/Signature');
   if (fs.existsSync(sigDir)) {
@@ -25,13 +21,13 @@ try {
     sigFiles.forEach(({ src, dest }) => {
       const srcFile = path.join(sigDir, src);
       const destFile = path.join(pDir, dest);
-      if (fs.existsSync(srcFile)) {
+      if (fs.existsSync(srcFile) && !fs.existsSync(destFile)) {
         fs.copyFileSync(srcFile, destFile);
       }
     });
   }
 } catch (err) {
-  console.log('Image copy error:', err);
+  console.log('Image copy note:', err);
 }
 
 function syncProductImagesPlugin() {

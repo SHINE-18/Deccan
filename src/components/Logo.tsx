@@ -21,7 +21,7 @@ export default function Logo({ size = 'md', showText = true }: { size?: 'sm' | '
         <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
           <span
             style={{
-              fontFamily: "'Fraunces', 'Cormorant Garamond', serif",
+              fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
               fontWeight: 600,
               fontSize: size === 'sm' ? '1.05rem' : size === 'lg' ? '1.55rem' : '1.25rem',
               letterSpacing: '0.12em',

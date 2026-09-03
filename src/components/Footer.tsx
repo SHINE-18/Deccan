@@ -7,6 +7,7 @@ export default function Footer() {
     { label: 'Home', to: '/' },
     { label: 'About', to: '/about' },
     { label: 'Products', to: '/products' },
+    { label: 'Contact', to: '/contact' },
   ];
 
   const utilityPages = [

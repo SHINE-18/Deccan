@@ -1,6 +1,5 @@
-// src/App.tsx
 import { useEffect, useRef } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
 import Header from './components/Header';
@@ -9,6 +8,8 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 // Page transition variants
 const pageVariants = {
@@ -54,6 +55,7 @@ function ScrollToTop() {
 
 export default function App() {
   const location = useLocation();
+  const navigate = useNavigate();
   const lenisRef = useRef<Lenis | null>(null);
 
   // Initialize Lenis smooth scroll
@@ -70,6 +72,9 @@ export default function App() {
 
     lenisRef.current = lenis;
 
+    // Reset scroll position on initial load
+    lenis.scrollTo(0, { immediate: true });
+
     let raf: number;
     function animate(time: number) {
       lenis.raf(time);
@@ -81,6 +86,28 @@ export default function App() {
       cancelAnimationFrame(raf);
       lenis.destroy();
     };
+  }, []);
+
+  // On page load/refresh: redirect to homepage and scroll to top
+  // Only runs once on mount — uses PerformanceNavigationTiming to detect reload
+  useEffect(() => {
+    const navEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
+    const navType = navEntries?.[0]?.type;
+
+    // 'reload' = user hit F5 / Ctrl+R / browser refresh button
+    // 'navigate' = first visit or typed URL — also redirect to home
+    // 'back_forward' = browser back/forward — also redirect to home
+    // We skip only for Vite HMR which doesn't create new navigation entries
+    if (navType === 'reload' || navType === 'navigate' || navType === 'back_forward') {
+      if (window.location.pathname !== '/') {
+        navigate('/', { replace: true });
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(0, { immediate: true });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -123,6 +150,22 @@ export default function App() {
               </PageWrapper>
             }
           />
+          <Route
+            path="/terms"
+            element={
+              <PageWrapper>
+                <Terms />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/privacy"
+            element={
+              <PageWrapper>
+                <Privacy />
+              </PageWrapper>
+            }
+          />
           {/* Fallback */}
           <Route
             path="*"
@@ -137,7 +180,7 @@ export default function App() {
                   gap: 16,
                   background: '#121212',
                 }}>
-                  <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '6rem', color: 'rgba(201,162,39,0.2)' }}>404</span>
+                  <span style={{ fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", fontSize: '6rem', color: 'rgba(201,162,39,0.2)' }}>404</span>
                   <p style={{ fontFamily: "'Inter', sans-serif", color: '#9A9A9A' }}>This page doesn't exist yet.</p>
                 </div>
               </PageWrapper>
