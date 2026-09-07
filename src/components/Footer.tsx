@@ -52,7 +52,7 @@ export default function Footer() {
           />
         </div>
 
-        {/* Links Group (displays side-by-side on mobile, contents on desktop) */}
+        {/* Links Group (stacked line-by-line on mobile, contents on desktop) */}
         <div className="footer-links-group">
           {/* Column 2: Quick Links */}
           <div className="footer-col-links">

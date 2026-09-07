@@ -73,236 +73,9 @@ export default function ChefSignatureSeries() {
           }}
         >
           {/* ─────────────────────────────────────────────
-              LEFT COLUMN: Text Content & Refined CTA
+              LEFT COLUMN: Large AI-Generated Chef Photograph
              ───────────────────────────────────────────── */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            {/* Eyebrow Label with Decorative Accent */}
-            <ScrollReveal direction="left" delay={0.1}>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  marginBottom: 20,
-                }}
-              >
-                <span
-                  style={{
-                    width: 32,
-                    height: 1,
-                    background: '#CFA556',
-                    display: 'inline-block',
-                    opacity: 0.9,
-                  }}
-                />
-                <span
-                  style={{
-                    fontFamily: "'JetBrains Mono', 'Courier Prime', monospace",
-                    fontSize: 'clamp(0.72rem, 0.9vw, 0.82rem)',
-                    fontWeight: 600,
-                    letterSpacing: '0.24em',
-                    textTransform: 'uppercase',
-                    color: '#CFA556',
-                  }}
-                >
-                  CHEF SIGNATURE SERIES
-                </span>
-              </div>
-            </ScrollReveal>
-
-            {/* Main Headline */}
-            <ScrollReveal direction="left" delay={0.2}>
-              <h2
-                id="chef-signature-heading"
-                style={{
-                  fontFamily: "'Italiana', 'Fraunces', 'Marcellus', 'Playfair Display', serif",
-                  fontSize: 'clamp(1.75rem, 3.2vw, 3rem)',
-                  fontWeight: 400,
-                  color: '#FFFFFF',
-                  lineHeight: 1.16,
-                  letterSpacing: '-0.025em',
-                  margin: '0 0 24px 0',
-                  textShadow: '0 2px 20px rgba(0, 0, 0, 0.6)',
-                }}
-              >
-                <span
-                  style={{
-                    display: 'block',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  Where Every Blend
-                </span>
-                <span
-                  style={{
-                    fontStyle: 'italic',
-                    color: '#CFA556',
-                    display: 'block',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  Becomes a Signature.
-                </span>
-              </h2>
-            </ScrollReveal>
-
-            {/* Subtle Divider Detail */}
-            <ScrollReveal direction="left" delay={0.25}>
-              <div
-                aria-hidden="true"
-                style={{
-                  width: 56,
-                  height: 2,
-                  background: 'linear-gradient(90deg, #CFA556, rgba(207, 165, 86, 0.2))',
-                  marginBottom: 26,
-                  borderRadius: 2,
-                }}
-              />
-            </ScrollReveal>
-
-            {/* Description */}
-            <ScrollReveal direction="left" delay={0.3}>
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 'clamp(1.02rem, 1.25vw, 1.18rem)',
-                  lineHeight: 1.8,
-                  color: '#D8D4CE',
-                  maxWidth: 520,
-                  margin: '0 0 38px 0',
-                  fontWeight: 300,
-                  letterSpacing: '0.01em',
-                }}
-              >
-                Expertly crafted spice blends inspired by the rich traditions of Indian cooking.
-              </p>
-            </ScrollReveal>
-
-            {/* Premium Highlights Strip */}
-            <ScrollReveal direction="left" delay={0.35}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: 'clamp(16px, 2.5vw, 28px)',
-                  alignItems: 'center',
-                  padding: '16px 0',
-                  marginBottom: 36,
-                  borderTop: '1px solid rgba(207, 165, 86, 0.15)',
-                  borderBottom: '1px solid rgba(207, 165, 86, 0.15)',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Award size={16} color="#CFA556" />
-                  <span
-                    style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.82rem',
-                      letterSpacing: '0.04em',
-                      color: 'rgba(255, 255, 255, 0.85)',
-                      fontWeight: 500,
-                    }}
-                  >
-                    Master Chef Curation
-                  </span>
-                </div>
-                <span
-                  style={{
-                    width: 3,
-                    height: 3,
-                    borderRadius: '50%',
-                    background: '#CFA556',
-                    opacity: 0.6,
-                  }}
-                />
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Sparkles size={16} color="#CFA556" />
-                  <span
-                    style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.82rem',
-                      letterSpacing: '0.04em',
-                      color: 'rgba(255, 255, 255, 0.85)',
-                      fontWeight: 500,
-                    }}
-                  >
-                    Rare Whole Terroirs
-                  </span>
-                </div>
-                <span
-                  style={{
-                    width: 3,
-                    height: 3,
-                    borderRadius: '50%',
-                    background: '#CFA556',
-                    opacity: 0.6,
-                  }}
-                />
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Flame size={16} color="#CFA556" />
-                  <span
-                    style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.82rem',
-                      letterSpacing: '0.04em',
-                      color: 'rgba(255, 255, 255, 0.85)',
-                      fontWeight: 500,
-                    }}
-                  >
-                    Artisanal Slow Roast
-                  </span>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Refined Gold CTA Button */}
-            <ScrollReveal direction="left" delay={0.4}>
-              <div>
-                <Link
-                  to="/products"
-                  id="chef-signature-cta"
-                  aria-label="Explore the Chef Signature Series Collection"
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 12,
-                    padding: '16px 36px',
-                    borderRadius: 8,
-                    background: isHovered
-                      ? 'linear-gradient(135deg, #F0C97F 0%, #E2B866 50%, #C89945 100%)'
-                      : 'linear-gradient(135deg, #DFB76C 0%, #CFA556 50%, #B88E40 100%)',
-                    color: '#12110F',
-                    fontFamily: "'Inter', sans-serif",
-                    fontWeight: 600,
-                    fontSize: '0.94rem',
-                    letterSpacing: '0.04em',
-                    textDecoration: 'none',
-                    boxShadow: isHovered
-                      ? '0 10px 30px rgba(207, 165, 86, 0.45)'
-                      : '0 5px 20px rgba(207, 165, 86, 0.28)',
-                    transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
-                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                  }}
-                >
-                  <span>Explore the Collection</span>
-                  <motion.span
-                    animate={{ x: isHovered ? 4 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    style={{ display: 'inline-flex', alignItems: 'center' }}
-                  >
-                    <ArrowRight size={18} strokeWidth={2.2} />
-                  </motion.span>
-                </Link>
-              </div>
-            </ScrollReveal>
-          </div>
-
-          {/* ─────────────────────────────────────────────
-              RIGHT COLUMN: Large AI-Generated Chef Photograph
-             ───────────────────────────────────────────── */}
-          <ScrollReveal direction="right" delay={0.25}>
+          <ScrollReveal direction="left" delay={0.15}>
             <div
               style={{
                 position: 'relative',
@@ -409,6 +182,231 @@ export default function ChefSignatureSeries() {
               </div>
             </div>
           </ScrollReveal>
+
+          {/* ─────────────────────────────────────────────
+              RIGHT COLUMN: Text Content & Refined CTA
+             ───────────────────────────────────────────── */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            {/* Eyebrow Label with Decorative Accent */}
+            <ScrollReveal direction="right" delay={0.1}>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  marginBottom: 20,
+                }}
+              >
+                <span
+                  style={{
+                    width: 32,
+                    height: 1,
+                    background: '#CFA556',
+                    display: 'inline-block',
+                    opacity: 0.9,
+                  }}
+                />
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', 'Courier Prime', monospace",
+                    fontSize: 'clamp(0.72rem, 0.9vw, 0.82rem)',
+                    fontWeight: 600,
+                    letterSpacing: '0.24em',
+                    textTransform: 'uppercase',
+                    color: '#CFA556',
+                  }}
+                >
+                  CHEF SIGNATURE SERIES
+                </span>
+              </div>
+            </ScrollReveal>
+
+            {/* Main Headline */}
+            <ScrollReveal direction="right" delay={0.2}>
+              <h2
+                id="chef-signature-heading"
+                style={{
+                  fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
+                  fontSize: 'clamp(1.75rem, 3.2vw, 3rem)',
+                  fontWeight: 400,
+                  color: '#CFA556',
+                  lineHeight: 1.16,
+                  letterSpacing: '0.01em',
+                  margin: '0 0 24px 0',
+                  textShadow: '0 2px 20px rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <span
+                  style={{
+                    display: 'block',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  Where Every Blend
+                </span>
+                <span
+                  style={{
+                    display: 'block',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  Becomes a <span style={{ fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif", fontStyle: 'italic', color: '#FFF2C6', fontWeight: 400 }}>Signature.</span>
+                </span>
+              </h2>
+            </ScrollReveal>
+
+            {/* Subtle Divider Detail */}
+            <ScrollReveal direction="right" delay={0.25}>
+              <div
+                aria-hidden="true"
+                style={{
+                  width: 56,
+                  height: 2,
+                  background: 'linear-gradient(90deg, #CFA556, rgba(207, 165, 86, 0.2))',
+                  marginBottom: 26,
+                  borderRadius: 2,
+                }}
+              />
+            </ScrollReveal>
+
+            {/* Description */}
+            <ScrollReveal direction="right" delay={0.3}>
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 'clamp(1.02rem, 1.25vw, 1.18rem)',
+                  lineHeight: 1.8,
+                  color: '#D8D4CE',
+                  maxWidth: 520,
+                  margin: '0 0 38px 0',
+                  fontWeight: 300,
+                  letterSpacing: '0.01em',
+                }}
+              >
+                Expertly crafted spice blends inspired by the rich traditions of Indian cooking.
+              </p>
+            </ScrollReveal>
+
+            {/* Premium Highlights Strip */}
+            <ScrollReveal direction="right" delay={0.35}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 'clamp(16px, 2.5vw, 28px)',
+                  alignItems: 'center',
+                  padding: '16px 0',
+                  marginBottom: 36,
+                  borderTop: '1px solid rgba(207, 165, 86, 0.15)',
+                  borderBottom: '1px solid rgba(207, 165, 86, 0.15)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Award size={16} color="#CFA556" />
+                  <span
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '0.82rem',
+                      letterSpacing: '0.04em',
+                      color: 'rgba(255, 255, 255, 0.85)',
+                      fontWeight: 500,
+                    }}
+                  >
+                    Master Chef Curation
+                  </span>
+                </div>
+                <span
+                  style={{
+                    width: 3,
+                    height: 3,
+                    borderRadius: '50%',
+                    background: '#CFA556',
+                    opacity: 0.6,
+                  }}
+                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Sparkles size={16} color="#CFA556" />
+                  <span
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '0.82rem',
+                      letterSpacing: '0.04em',
+                      color: 'rgba(255, 255, 255, 0.85)',
+                      fontWeight: 500,
+                    }}
+                  >
+                    Rare Whole Terroirs
+                  </span>
+                </div>
+                <span
+                  style={{
+                    width: 3,
+                    height: 3,
+                    borderRadius: '50%',
+                    background: '#CFA556',
+                    opacity: 0.6,
+                  }}
+                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Flame size={16} color="#CFA556" />
+                  <span
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '0.82rem',
+                      letterSpacing: '0.04em',
+                      color: 'rgba(255, 255, 255, 0.85)',
+                      fontWeight: 500,
+                    }}
+                  >
+                    Artisanal Slow Roast
+                  </span>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Refined Gold CTA Button */}
+            <ScrollReveal direction="right" delay={0.4}>
+              <div>
+                <Link
+                  to="/products"
+                  id="chef-signature-cta"
+                  aria-label="Explore the Chef Signature Series Collection"
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    padding: '16px 36px',
+                    borderRadius: 8,
+                    background: isHovered
+                      ? 'linear-gradient(135deg, #F0C97F 0%, #E2B866 50%, #C89945 100%)'
+                      : 'linear-gradient(135deg, #DFB76C 0%, #CFA556 50%, #B88E40 100%)',
+                    color: '#12110F',
+                    fontFamily: "'Inter', sans-serif",
+                    fontWeight: 600,
+                    fontSize: '0.94rem',
+                    letterSpacing: '0.04em',
+                    textDecoration: 'none',
+                    boxShadow: isHovered
+                      ? '0 10px 30px rgba(207, 165, 86, 0.45)'
+                      : '0 5px 20px rgba(207, 165, 86, 0.28)',
+                    transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                >
+                  <span>Explore the Collection</span>
+                  <motion.span
+                    animate={{ x: isHovered ? 4 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    style={{ display: 'inline-flex', alignItems: 'center' }}
+                  >
+                    <ArrowRight size={18} strokeWidth={2.2} />
+                  </motion.span>
+                </Link>
+              </div>
+            </ScrollReveal>
+          </div>
         </div>
       </div>
     </section>

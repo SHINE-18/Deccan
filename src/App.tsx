@@ -11,11 +11,11 @@ import Contact from './pages/Contact';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 
-// Page transition variants
+// Page transition variants (opacity only to avoid CSS transform containing block on sticky/fixed children)
 const pageVariants = {
-  initial: { opacity: 0, y: 8 },
-  animate: { opacity: 1, y: 0 },
-  exit:    { opacity: 0, y: -8 },
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit:    { opacity: 0 },
 };
 
 function PageWrapper({ children }: { children: React.ReactNode }) {
@@ -25,7 +25,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
       initial="initial"
       animate="animate"
       exit="exit"
-      transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
     >
       {children}
     </motion.div>
@@ -43,11 +43,19 @@ function ScrollToTop() {
         if (el) {
           const offset = 90;
           const top = el.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top, behavior: 'smooth' });
+          if ((window as any).lenis) {
+            (window as any).lenis.scrollTo(top, { duration: 1.0 });
+          } else {
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
         }
       }, 150);
     } else {
-      window.scrollTo(0, 0);
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
     }
   }, [pathname, hash]);
   return null;
@@ -71,6 +79,7 @@ export default function App() {
     });
 
     lenisRef.current = lenis;
+    (window as any).lenis = lenis;
 
     // Reset scroll position on initial load
     lenis.scrollTo(0, { immediate: true });
@@ -84,7 +93,47 @@ export default function App() {
 
     return () => {
       cancelAnimationFrame(raf);
+      (window as any).lenis = null;
       lenis.destroy();
+    };
+  }, []);
+
+  // Lock Zoom (Option A: App-like Feel — prevent trackpad pinch & ctrl+wheel zoom)
+  useEffect(() => {
+    // Prevent trackpad pinch-to-zoom and Ctrl + Wheel zoom
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+      }
+    };
+
+    // Prevent Safari/Mac pinch gestures
+    const handleGesture = (e: Event) => {
+      e.preventDefault();
+    };
+
+    // Prevent Ctrl/Cmd + Plus/Minus/Zero keyboard zoom
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '0' || e.code === 'NumpadAdd' || e.code === 'NumpadSubtract')
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('gesturestart', handleGesture);
+    document.addEventListener('gesturechange', handleGesture);
+    document.addEventListener('gestureend', handleGesture);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('gesturestart', handleGesture);
+      document.removeEventListener('gesturechange', handleGesture);
+      document.removeEventListener('gestureend', handleGesture);
     };
   }, []);
 

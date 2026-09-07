@@ -1,19 +1,18 @@
 // src/pages/Home.tsx
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
-  ArrowUpRight, Leaf, Package, HeartHandshake,
-  ChevronRight
+  ArrowUpRight, Leaf, Package, HeartHandshake
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import StoryCraftSection from '../components/StoryCraftSection';
 import ChefSignatureSeries from '../components/ChefSignatureSeries';
+import NavanyaHero from '../components/NavanyaHero';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
-import CategoryIcon from '../components/CategoryIcon';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -58,226 +57,7 @@ const heritageItems = [
 ];
 
 
-// ─────────────────────────────────────────────
-// KINETIC HERO — Standard Luxury Deccan Masala Experience
-// ─────────────────────────────────────────────
-function KineticHero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLDivElement>(null);
 
-  const { scrollY } = useScroll();
-  const bgParallax = useTransform(scrollY, [0, 600], ['0%', '12%']);
-
-  // GSAP char-by-char entrance
-  useEffect(() => {
-    const el = headlineRef.current;
-    if (!el) return;
-    const chars = el.querySelectorAll('.hero-char');
-    gsap.fromTo(
-      chars,
-      { opacity: 0, y: 45, rotateX: -15 },
-      {
-        opacity: 1,
-        y: 0,
-        rotateX: 0,
-        stagger: 0.035,
-        duration: 0.85,
-        ease: 'power3.out',
-        delay: 0.25,
-      }
-    );
-  }, []);
-
-  const headline = 'Where Tradition Meets Taste';
-
-  return (
-    <section
-      ref={containerRef}
-      aria-label="Hero banner"
-      style={{
-        position: 'relative',
-        minHeight: '100svh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        background: '#161616',
-        padding: '120px clamp(24px, 6vw, 100px) 90px',
-      }}
-    >
-      {/* Masala Spices Atmospheric Background Image */}
-      <motion.div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'url("/masala_hero_bg.jpg")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 40%',
-          opacity: 0.42,
-          y: bgParallax,
-          scale: 1.06,
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Atmospheric Dark Luxury Gradient Overlays */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(180deg, rgba(22,22,22,0.85) 0%, rgba(22,22,22,0.4) 45%, rgba(22,22,22,0.95) 90%, #161616 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'radial-gradient(ellipse 65% 55% at 50% 50%, rgba(207,165,86,0.12) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Main Content Layout */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          maxWidth: 1100,
-          width: '100%',
-        }}
-      >
-        {/* Hero headline — styled like StoryCraftSection "Crafted with Passion" */}
-        <h1
-          ref={headlineRef}
-          aria-label={headline}
-          style={{
-            fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif",
-            fontSize: 'clamp(2.2rem, 5.2vw, 4.2rem)',
-            fontWeight: 400,
-            color: '#FFFFFF',
-            lineHeight: 1.15,
-            letterSpacing: '-0.02em',
-            margin: '0 0 16px 0',
-            maxWidth: 820,
-          }}
-        >
-          {headline.split(' ').map((word, wordIndex) => (
-            <span key={wordIndex} style={{ display: 'inline-block', whiteSpace: 'nowrap', marginRight: '0.28em', fontStyle: word === 'Tradition' ? 'italic' : 'normal', color: word === 'Tradition' ? '#CFA556' : undefined }}>
-              {word.split('').map((char, charIndex) => (
-                <span key={charIndex} className="hero-char" style={{ display: 'inline-block' }}>
-                  {char}
-                </span>
-              ))}
-            </span>
-          ))}
-        </h1>
-
-        {/* Sub description */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.8 }}
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 'clamp(1rem, 1.3vw, 1.15rem)',
-            color: '#D4D4D4',
-            marginTop: 30,
-            maxWidth: 540,
-            lineHeight: 1.7,
-            textShadow: '0 2px 12px rgba(0,0,0,0.7)',
-          }}
-        >
-          Premium Indian spice blends rooted in royal Deccan heritage — handcrafted, 100% natural, and sealed for unmatched purity and aroma.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.0 }}
-          style={{
-            marginTop: 42,
-            display: 'flex',
-            gap: 18,
-            flexWrap: 'wrap',
-            alignItems: 'center',
-          }}
-        >
-          <Link
-            to="/products"
-            id="hero-cta-explore"
-            aria-label="Explore the spice collection"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '15px 34px',
-              borderRadius: 6,
-              background: '#CFA556',
-              color: '#161616',
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 600,
-              fontSize: '0.92rem',
-              letterSpacing: '0.02em',
-              transition: 'all 0.25s ease',
-              boxShadow: '0 4px 18px rgba(207, 165, 86, 0.28)',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = '#E2B866';
-              el.style.transform = 'translateY(-2px)';
-              el.style.boxShadow = '0 8px 24px rgba(207, 165, 86, 0.45)';
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = '#CFA556';
-              el.style.transform = 'translateY(0)';
-              el.style.boxShadow = '0 4px 18px rgba(207, 165, 86, 0.28)';
-            }}
-          >
-            Explore the Collection
-            <ArrowUpRight size={16} />
-          </Link>
-
-          <Link
-            to="/about"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '15px 30px',
-              borderRadius: 6,
-              border: '1px solid rgba(207, 165, 86, 0.35)',
-              color: '#CFA556',
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.92rem',
-              fontWeight: 500,
-              letterSpacing: '0.02em',
-              transition: 'all 0.25s ease',
-              background: 'rgba(22, 22, 22, 0.4)',
-              backdropFilter: 'blur(8px)',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = 'rgba(207, 165, 86, 0.12)';
-              el.style.borderColor = 'rgba(207, 165, 86, 0.7)';
-              el.style.color = '#FFFFFF';
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = 'rgba(22, 22, 22, 0.4)';
-              el.style.borderColor = 'rgba(207, 165, 86, 0.35)';
-              el.style.color = '#CFA556';
-            }}
-          >
-            Our Story
-          </Link>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
 
 
 
@@ -293,113 +73,179 @@ function HeritageSection() {
       className="heritage-grid"
       aria-labelledby="heritage-heading"
       style={{
-        padding: 'clamp(60px, 8vw, 120px) clamp(20px, 5vw, 80px)',
-        maxWidth: 1300,
+        padding: 'clamp(80px, 10vw, 140px) clamp(24px, 6vw, 100px)',
+        maxWidth: 1320,
         margin: '0 auto',
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: 60,
-        alignItems: 'start',
+        gap: 'clamp(40px, 6vw, 80px)',
+        alignItems: 'center',
       }}
     >
-      {/* Left: expandable list */}
+      {/* Left: Clean, Left-Aligned Editorial Story & Collections */}
       <div>
         <ScrollReveal direction="left">
-          <span style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '0.65rem',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: '#CFA556',
-          }}>
-            Our Collections
-          </span>
-          <h2 id="heritage-heading" style={{
-            fontFamily: "'Italiana', 'Fraunces', 'Marcellus', 'Playfair Display', serif",
-            fontSize: 'clamp(2rem, 3.8vw, 3.2rem)',
-            fontWeight: 400,
-            color: '#FAFAF7',
-            margin: '12px 0 32px',
-            lineHeight: 1.15,
-            letterSpacing: '-0.02em',
-          }}>
-            A Legacy of Flavor
+          {/* Top Gold Accent Bar */}
+          <div
+            style={{
+              width: 38,
+              height: 2,
+              backgroundColor: '#CFA556',
+              marginBottom: 14,
+              borderRadius: 1,
+            }}
+          />
+
+          {/* Eyebrow */}
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              marginBottom: 16,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                fontSize: 'clamp(0.72rem, 0.82vw, 0.8rem)',
+                fontWeight: 600,
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: '#CFA556',
+              }}
+            >
+              Our Collections
+            </span>
+            <span
+              style={{
+                color: 'rgba(207, 165, 86, 0.4)',
+                fontSize: '0.75rem',
+              }}
+            >
+              •
+            </span>
+            <span
+              style={{
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                fontSize: 'clamp(0.7rem, 0.8vw, 0.78rem)',
+                fontWeight: 400,
+                letterSpacing: '0.14em',
+                color: 'rgba(230, 218, 204, 0.65)',
+              }}
+            >
+              Deccan Spices
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h2
+            id="heritage-heading"
+            style={{
+              margin: '0 0 32px 0',
+              padding: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              textAlign: 'left',
+              fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
+              fontSize: 'clamp(2.2rem, 4.2vw, 3.8rem)',
+              fontWeight: 400,
+              color: '#CFA556',
+              lineHeight: 1.15,
+              letterSpacing: '0.02em',
+            }}
+          >
+            <span>A Legacy of</span>
+            <span
+              style={{
+                fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif",
+                fontStyle: 'italic',
+                color: '#FFF2C6',
+                fontWeight: 400,
+                marginTop: 2,
+              }}
+            >
+              Flavor.
+            </span>
           </h2>
         </ScrollReveal>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {heritageItems.map((item, i) => (
-            <ScrollReveal key={item.title} direction="left" delay={i * 0.08}>
-              <button
-                onClick={() => setActiveIndex(i)}
-                aria-expanded={activeIndex === i}
-                aria-controls={`heritage-desc-${i}`}
-                style={{
-                  all: 'unset',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  justifyContent: 'space-between',
-                  gap: 16,
-                  padding: '18px 20px',
-                  borderRadius: 12,
-                  background: activeIndex === i ? 'rgba(207, 165, 86, 0.12)' : 'rgba(255, 255, 255, 0.02)',
-                  border: activeIndex === i ? '1px solid rgba(207, 165, 86, 0.4)' : '1px solid rgba(255, 255, 255, 0.06)',
-                  cursor: 'pointer',
-                  width: '100%',
-                  boxSizing: 'border-box',
-                  transition: 'all 0.25s ease',
-                }}
-              >
-                <div style={{ flex: 1 }}>
-                  <span style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '1.05rem',
-                    fontWeight: 600,
-                    color: activeIndex === i ? '#CFA556' : '#FAFAF7',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 12,
-                    marginBottom: activeIndex === i ? 10 : 0,
-                    transition: 'color 0.3s ease',
-                  }}>
-                    <CategoryIcon
-                      categoryId={item.id}
-                      size={20}
-                      color={activeIndex === i ? '#CFA556' : '#FAFAF7'}
+        {/* Clean Unboxed List — No chunky boxes, pure typography */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+          {heritageItems.map((item, i) => {
+            const isActive = activeIndex === i;
+
+            return (
+              <ScrollReveal key={item.title} direction="left" delay={i * 0.06}>
+                <div
+                  onClick={() => setActiveIndex(i)}
+                  style={{
+                    padding: '20px 0',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  {/* Title Row */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                    <div
+                      style={{
+                        width: isActive ? 20 : 0,
+                        height: 2,
+                        backgroundColor: '#CFA556',
+                        borderRadius: 1,
+                        transition: 'width 0.3s ease',
+                        flexShrink: 0,
+                      }}
                     />
-                    <span>{item.title}</span>
-                  </span>
+                    <h3
+                      style={{
+                        fontFamily: "'Playfair Display', 'GT Sectra', serif",
+                        fontSize: 'clamp(1.15rem, 1.4vw, 1.35rem)',
+                        fontWeight: isActive ? 600 : 400,
+                        color: isActive ? '#F7F3EB' : 'rgba(230, 218, 204, 0.45)',
+                        margin: 0,
+                        letterSpacing: '0.01em',
+                        transition: 'color 0.3s ease',
+                      }}
+                    >
+                      {item.title}
+                    </h3>
+                  </div>
+
+                  {/* Clean Supporting Paragraph */}
                   <motion.div
-                    id={`heritage-desc-${i}`}
                     initial={false}
-                    animate={{ height: activeIndex === i ? 'auto' : 0, opacity: activeIndex === i ? 1 : 0 }}
+                    animate={{
+                      height: isActive ? 'auto' : 0,
+                      opacity: isActive ? 1 : 0,
+                      marginTop: isActive ? 12 : 0,
+                    }}
                     transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-                    style={{ overflow: 'hidden' }}
+                    style={{ overflow: 'hidden', paddingLeft: isActive ? 34 : 0, transition: 'padding-left 0.3s ease' }}
                   >
-                    <p style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.88rem',
-                      color: 'rgba(250,250,247,0.7)',
-                      lineHeight: 1.65,
-                      margin: 0,
-                    }}>
+                    <p
+                      style={{
+                        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                        fontSize: 'clamp(0.92rem, 1.05vw, 1.02rem)',
+                        lineHeight: 1.62,
+                        color: 'rgba(230, 218, 204, 0.78)',
+                        margin: 0,
+                        maxWidth: 510,
+                        fontWeight: 400,
+                      }}
+                    >
                       {item.desc}
                     </p>
                   </motion.div>
                 </div>
-                <motion.div
-                  animate={{ rotate: activeIndex === i ? 45 : 0 }}
-                  transition={{ duration: 0.25 }}
-                  style={{ flexShrink: 0, color: '#CFA556', marginTop: 3 }}
-                >
-                  <ChevronRight size={18} />
-                </motion.div>
-              </button>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
 
-        <ScrollReveal delay={0.4}>
+        {/* Clean Link */}
+        <ScrollReveal delay={0.35}>
           <Link
             to="/products"
             id="heritage-cta-explore"
@@ -407,46 +253,44 @@ function HeritageSection() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
-              marginTop: 28,
-              padding: '12px 26px',
-              borderRadius: 999,
-              border: '1px solid rgba(207, 165, 86, 0.35)',
-              color: '#FAFAF7',
+              marginTop: 32,
+              color: '#CFA556',
               fontFamily: "'Inter', sans-serif",
               fontSize: '0.88rem',
-              letterSpacing: '0.02em',
-              fontWeight: 500,
+              letterSpacing: '0.12em',
+              fontWeight: 600,
+              textTransform: 'uppercase',
               textDecoration: 'none',
-              transition: 'all 0.2s ease',
+              transition: 'color 0.2s ease, gap 0.2s ease',
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement;
-              el.style.background = 'rgba(207, 165, 86, 0.15)';
-              el.style.borderColor = '#CFA556';
-              el.style.color = '#CFA556';
+              el.style.color = '#FFF2C6';
+              el.style.gap = '12px';
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement;
-              el.style.background = 'transparent';
-              el.style.borderColor = 'rgba(207, 165, 86, 0.35)';
-              el.style.color = '#FAFAF7';
+              el.style.color = '#CFA556';
+              el.style.gap = '8px';
             }}
           >
-            Explore Products <ArrowUpRight size={14} />
+            Explore Products <ArrowUpRight size={16} />
           </Link>
         </ScrollReveal>
       </div>
 
-      {/* Right: image panel with smooth category image transition */}
+      {/* Right: Clean Visual Image Panel */}
       <ScrollReveal direction="right" delay={0.1}>
-        <div style={{
-          height: 'clamp(340px, 45vw, 540px)',
-          borderRadius: 20,
-          overflow: 'hidden',
-          position: 'relative',
-          background: '#1F1C18',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-        }}>
+        <div
+          style={{
+            height: 'clamp(380px, 46vw, 560px)',
+            borderRadius: 16,
+            overflow: 'hidden',
+            position: 'relative',
+            background: '#181614',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6)',
+          }}
+        >
           <AnimatePresence mode="wait">
             <motion.img
               key={heritageItems[activeIndex]?.image || activeIndex}
@@ -455,21 +299,23 @@ function HeritageSection() {
               initial={{ opacity: 0, scale: 1.05 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                filter: 'brightness(0.95) contrast(1.05)',
+                filter: 'brightness(0.92) contrast(1.05)',
               }}
             />
           </AnimatePresence>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(180deg, rgba(22,22,22,0.1) 0%, rgba(22,22,22,0.5) 100%)',
-            pointerEvents: 'none',
-          }} />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(180deg, rgba(22, 22, 22, 0.1) 0%, rgba(22, 22, 22, 0.4) 60%, rgba(22, 22, 22, 0.85) 100%)',
+              pointerEvents: 'none',
+            }}
+          />
         </div>
       </ScrollReveal>
     </section>
@@ -516,10 +362,10 @@ function SignatureMasalas() {
                 fontSize: 'clamp(2rem, 3.8vw, 3.2rem)',
                 fontWeight: 500,
                 color: '#CFA556',
-                letterSpacing: '-0.02em',
+                letterSpacing: '0.01em',
               }}
             >
-              Signature Masalas
+              Signature <span style={{ fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif", fontStyle: 'italic', color: '#FFF2C6', fontWeight: 400 }}>Masalas</span>
             </h2>
           </div>
           <div>
@@ -647,17 +493,16 @@ function FeatureGrid() {
             <h2
               id="feature-heading"
               style={{
-                fontFamily: "'Italiana', 'Fraunces', 'Marcellus', 'Playfair Display', serif",
+                fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
                 fontSize: 'clamp(2.5rem, 4.8vw, 3.8rem)',
                 fontWeight: 400,
                 textAlign: 'center',
-                color: '#FFFFFF',
-                letterSpacing: '-0.02em',
+                color: '#CFA556',
+                letterSpacing: '0.01em',
                 lineHeight: 1.15,
               }}
             >
-              <span style={{ color: '#CFA556', marginRight: 12 }}>Not Your</span>
-              Average Masala
+              Not Your Average <span style={{ fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif", fontStyle: 'italic', color: '#FFF2C6', fontWeight: 400 }}>Masala</span>
             </h2>
           </div>
 
@@ -937,7 +782,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <KineticHero />
+      <NavanyaHero />
       <StoryCraftSection />
       <HeritageSection />
       <ChefSignatureSeries />

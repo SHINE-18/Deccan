@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, Flame, Check, MapPin, ArrowRight } from 'lucide-react';
 import type { Product } from '../data/products';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface ProductDrawerProps {
   product: Product | null;
@@ -12,6 +12,25 @@ interface ProductDrawerProps {
 
 export default function ProductDrawer({ product, onClose, onReserve }: ProductDrawerProps) {
   const [copied, setCopied] = useState(false);
+
+  // Lock background page scroll and pause Lenis while the drawer is open
+  useEffect(() => {
+    if (!product) return;
+
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+
+    (window as any).lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = prevBodyOverflow;
+      document.documentElement.style.overflow = prevHtmlOverflow;
+      (window as any).lenis?.start();
+    };
+  }, [product]);
 
   if (!product) return null;
 
@@ -31,6 +50,14 @@ export default function ProductDrawer({ product, onClose, onReserve }: ProductDr
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
           onClick={onClose}
+          onWheel={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchMove={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           style={{
             position: 'fixed',
             inset: 0,
@@ -41,10 +68,12 @@ export default function ProductDrawer({ product, onClose, onReserve }: ProductDr
 
         {/* Drawer Panel */}
         <motion.div
+          data-lenis-prevent="true"
           initial={{ x: '100%' }}
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'spring', damping: 25, stiffness: 220 }}
+          onWheel={(e) => e.stopPropagation()}
           style={{
             position: 'relative',
             zIndex: 1001,
@@ -57,6 +86,8 @@ export default function ProductDrawer({ product, onClose, onReserve }: ProductDr
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'auto',
+            overscrollBehavior: 'contain',
+            WebkitOverflowScrolling: 'touch',
             color: '#FFFFFF',
           }}
         >

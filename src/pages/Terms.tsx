@@ -76,17 +76,21 @@ export default function Terms() {
           }}>
             Legal
           </span>
-          <h1 style={{
-            fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
-            fontSize: 'clamp(2.5rem, 6vw, 4.2rem)',
-            fontWeight: 500,
-            color: '#FFFFFF',
-            letterSpacing: '-0.03em',
-            lineHeight: 1.08,
-            marginBottom: 12,
-          }}>
-            Terms & Conditions
-          </h1>
+          <div className="editorial-heading-row" style={{ marginBottom: 16 }}>
+            <div className="editorial-heading-line" />
+            <h1 style={{
+              fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",
+              fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
+              fontWeight: 400,
+              color: '#CFA556',
+              letterSpacing: '0.01em',
+              lineHeight: 1.2,
+              margin: 0,
+            }}>
+              Terms & <span style={{ fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif", fontStyle: 'italic', color: '#FFF2C6', fontWeight: 400 }}>Conditions</span>
+            </h1>
+            <div className="editorial-heading-line" />
+          </div>
           <p style={{
             fontFamily: "'Inter', sans-serif",
             fontSize: '0.9rem',

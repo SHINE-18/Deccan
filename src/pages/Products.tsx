@@ -1,5 +1,6 @@
 // src/pages/Products.tsx
 import { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { categories, products, type Product } from '../data/products';
 import ProductDrawer from '../components/ProductDrawer';
 import CategoryIcon from '../components/CategoryIcon';
@@ -23,157 +24,198 @@ export default function Products() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
+  const isManualScrolling = useRef(false);
   const categoryRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const tabButtonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
   const scrollToCategory = (catId: string) => {
     setActiveCategory(catId);
+    isManualScrolling.current = true;
     const el = categoryRefs.current[catId];
     if (el) {
-      const offset = 90;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      // Header is 76px; offset leaves comfortable breathing room
+      const offset = isMobile ? 146 : 96;
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = Math.max(0, elementPosition - offset);
+
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(offsetPosition, { duration: 0.9 });
+      } else {
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
+
+    // Scroll active button into view on mobile horizontal bar
+    if (isMobile && tabButtonRefs.current[catId]) {
+      tabButtonRefs.current[catId]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+
+    // Re-enable scroll spy after scroll animation finishes
+    setTimeout(() => {
+      isManualScrolling.current = false;
+    }, 950);
   };
 
-  // Intersection Observer for scroll spy functionality
+  // Scroll spy: update active category while sliding / scrolling down the page
   useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-120px 0px -50% 0px',
-      threshold: 0.05,
-    };
+    const handleScroll = () => {
+      if (isManualScrolling.current) return;
 
-    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveCategory(entry.target.id);
+      const triggerLine = isMobile ? 180 : 150;
+      let currentActive = categories[0]?.id;
+
+      for (const cat of categories) {
+        const el = categoryRefs.current[cat.id];
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= triggerLine) {
+            currentActive = cat.id;
+          }
         }
-      });
+      }
+
+      if (currentActive) {
+        setActiveCategory((prev) => {
+          if (prev !== currentActive) {
+            if (isMobile && tabButtonRefs.current[currentActive]) {
+              tabButtonRefs.current[currentActive]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+            return currentActive;
+          }
+          return prev;
+        });
+      }
     };
 
-    const observer = new IntersectionObserver(handleIntersection, observerOptions);
-
-    categories.forEach((cat) => {
-      const el = categoryRefs.current[cat.id];
-      if (el) {
-        observer.observe(el);
-      }
-    });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
-    <div style={{ background: '#121212', minHeight: '100vh', color: '#FFFFFF', paddingTop: 80, fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ background: '#121212', minHeight: '100vh', color: '#FFFFFF', fontFamily: "'Inter', sans-serif" }}>
 
       {/* Hero Header with background image */}
-      <div style={{ position: 'relative', padding: '100px 24px 80px 24px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', textAlign: 'center' }}>
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+      <section className="products-hero-section" aria-labelledby="products-hero-title">
+        {/* Background Image & Gradient Overlays */}
+        <div className="products-hero-bg" aria-hidden="true">
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(18, 18, 18, 0.4) 0%, #121212 100%)', zIndex: 1 }} />
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.5)', zIndex: 1 }} />
           <img
             style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, filter: 'brightness(75%) grayscale(30%)' }}
             src="/heritage-lifestyle.png"
-            alt="Spice background"
+            alt=""
           />
         </div>
 
-        <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-            <div style={{ width: 80, height: 1, background: '#CFA556', opacity: 0.3 }} />
-            <h1 style={{ color: '#CFA556', fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", textTransform: 'capitalize', fontWeight: 'normal', margin: 0, letterSpacing: '0.02em' }}>
-              Our <span style={{ fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif", fontStyle: 'italic', color: '#FFF2C6', fontWeight: 400 }}>Spice</span> Collection
+        {/* Hero Content */}
+        <div className="products-hero-content">
+          <div className="products-hero-heading-row">
+            <div className="products-hero-line" />
+            <h1 id="products-hero-title" className="products-hero-heading">
+              Our <span className="hero-italic">Spice</span> Collection
             </h1>
-            <div style={{ width: 80, height: 1, background: '#CFA556', opacity: 0.3 }} />
+            <div className="products-hero-line" />
           </div>
-          <div style={{ maxWidth: 610 }}>
-            <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>
-              Expertly blended using the finest ingredients for rich aroma and exceptional taste
-            </p>
-          </div>
+          <p className="products-hero-desc">
+            Expertly blended using the finest ingredients for rich aroma and exceptional taste
+          </p>
         </div>
-      </div>
+      </section>
 
       {/* Main Content Area */}
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '40px 24px 80px 24px' }}>
-        <div style={{ width: '100%', maxWidth: 1200, display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 40, alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', padding: isMobile ? '20px 16px 80px 16px' : '40px 24px 80px 24px' }}>
+        <div style={{ width: '100%', maxWidth: 1200, display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 24 : 40, alignItems: 'flex-start' }}>
 
-          {/* Left Category Sidebar */}
-          <div style={{
-            width: isMobile ? '100%' : '260px',
-            display: 'flex',
-            flexDirection: isMobile ? 'row' : 'column',
-            flexWrap: isMobile ? 'wrap' : 'nowrap',
-            gap: isMobile ? 8 : 12,
-            position: isMobile ? 'static' : 'sticky',
-            top: 110,
-            flexShrink: 0,
-          }}>
+          {/* Left Category Sidebar (Sticky on desktop, sticky horizontal bar on mobile) */}
+          <aside
+            aria-label="Product categories"
+            style={{
+              width: isMobile ? '100%' : '260px',
+              position: 'sticky',
+              top: isMobile ? 76 : 100,
+              zIndex: 30,
+              display: 'flex',
+              flexDirection: isMobile ? 'row' : 'column',
+              flexWrap: 'nowrap',
+              gap: isMobile ? 8 : 12,
+              flexShrink: 0,
+              overflowX: isMobile ? 'auto' : 'visible',
+              background: isMobile ? 'rgba(18, 18, 18, 0.95)' : 'transparent',
+              backdropFilter: isMobile ? 'blur(16px)' : 'none',
+              WebkitBackdropFilter: isMobile ? 'blur(16px)' : 'none',
+              padding: isMobile ? '10px 4px' : '0',
+              borderBottom: isMobile ? '1px solid rgba(255, 255, 255, 0.08)' : 'none',
+              scrollbarWidth: 'none',
+            }}
+          >
             {categories.map((cat) => {
               const isActive = activeCategory === cat.id;
               const isHovered = hoveredButton === cat.id;
 
-              const buttonStyle = isActive
-                ? {
-                    padding: isMobile ? '8px 12px' : '10px 16px',
-                    borderRadius: '4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    border: '1px solid #E5C29B',
-                    background: '#E5C29B',
-                    color: '#121212',
-                    cursor: 'pointer',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: isMobile ? '0.78rem' : '0.88rem',
-                    fontWeight: 600,
-                    transition: 'all 0.3s ease',
-                    textAlign: 'left' as const,
-                    width: isMobile ? 'auto' : '100%',
-                    flexShrink: 0,
-                  }
-                : {
-                    padding: isMobile ? '8px 12px' : '10px 16px',
-                    borderRadius: '4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    border: isHovered ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)',
-                    background: 'transparent',
-                    color: isHovered ? '#FFFFFF' : '#C4C4C4',
-                    cursor: 'pointer',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: isMobile ? '0.78rem' : '0.88rem',
-                    fontWeight: 500,
-                    transition: 'all 0.3s ease',
-                    textAlign: 'left' as const,
-                    width: isMobile ? 'auto' : '100%',
-                    flexShrink: 0,
-                  };
-
               return (
                 <button
                   key={cat.id}
+                  ref={(el) => { tabButtonRefs.current[cat.id] = el; }}
                   onClick={() => scrollToCategory(cat.id)}
                   onMouseEnter={() => setHoveredButton(cat.id)}
                   onMouseLeave={() => setHoveredButton(null)}
-                  style={buttonStyle}
+                  style={{
+                    position: 'relative',
+                    padding: isMobile ? '8px 14px' : '11px 16px',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    border: isActive
+                      ? '1px solid #E5C29B'
+                      : isHovered
+                      ? '1px solid rgba(255, 255, 255, 0.3)'
+                      : '1px solid rgba(255, 255, 255, 0.1)',
+                    background: 'transparent',
+                    color: isActive ? '#121212' : isHovered ? '#FFFFFF' : '#C4C4C4',
+                    cursor: 'pointer',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: isMobile ? '0.78rem' : '0.88rem',
+                    fontWeight: isActive ? 600 : 500,
+                    transition: 'border-color 0.25s ease, color 0.25s ease',
+                    textAlign: 'left' as const,
+                    width: isMobile ? 'auto' : '100%',
+                    flexShrink: 0,
+                    overflow: 'hidden',
+                  }}
                 >
+                  {/* Sliding active pill indicator */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeCategoryPill"
+                      transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: '#E5C29B',
+                        borderRadius: '3px',
+                        zIndex: 0,
+                      }}
+                    />
+                  )}
+
                   <div style={{
+                    position: 'relative',
+                    zIndex: 1,
                     width: 26,
                     height: 26,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
+                    transition: 'color 0.25s ease',
                   }}>
                     <CategoryIcon
                       categoryId={cat.id}
@@ -181,13 +223,20 @@ export default function Products() {
                       color={isActive ? '#121212' : isHovered ? '#FFFFFF' : '#CFA556'}
                     />
                   </div>
-                  <span style={{ fontSize: isMobile ? '0.78rem' : '0.88rem', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+                  <span style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    fontSize: isMobile ? '0.78rem' : '0.88rem',
+                    letterSpacing: '0.02em',
+                    whiteSpace: 'nowrap',
+                    transition: 'color 0.25s ease',
+                  }}>
                     {cat.label}
                   </span>
                 </button>
               );
             })}
-          </div>
+          </aside>
 
           {/* Vertical Divider line — desktop only */}
           {!isMobile && (
@@ -208,8 +257,19 @@ export default function Products() {
                 >
                   {/* Category Title Header */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 24, overflow: 'hidden' }}>
-                    <h2 style={{ color: '#CFA556', fontSize: '1.4rem', fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", textTransform: 'capitalize', fontWeight: 'normal', margin: 0, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
-                      {cat.label}
+                    <h2 style={{ color: '#CFA556', fontSize: '1.45rem', fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif", textTransform: 'capitalize', fontWeight: 'normal', margin: 0, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+                      {(() => {
+                        const words = cat.label.split(' ');
+                        const lastWord = words.pop();
+                        return (
+                          <>
+                            {words.join(' ')}{' '}
+                            <span style={{ fontFamily: "'Italiana', 'Playfair Display', 'Cormorant', serif", fontStyle: 'italic', color: '#FFF2C6', fontWeight: 400 }}>
+                              {lastWord}
+                            </span>
+                          </>
+                        );
+                      })()}
                     </h2>
                     <div style={{ flex: 1, height: 1, background: 'rgba(255, 255, 255, 0.1)' }} />
                   </div>

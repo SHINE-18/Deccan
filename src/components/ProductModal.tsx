@@ -1,7 +1,7 @@
 // src/components/ProductModal.tsx
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Flame, MapPin, ShoppingBag, Check } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Product } from '../data/products';
 
 interface ProductModalProps {
@@ -11,6 +11,25 @@ interface ProductModalProps {
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
   const [ordered, setOrdered] = useState(false);
+
+  // Lock background page scroll and pause Lenis while modal is open
+  useEffect(() => {
+    if (!product) return;
+
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+
+    (window as any).lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = prevBodyOverflow;
+      document.documentElement.style.overflow = prevHtmlOverflow;
+      (window as any).lenis?.start();
+    };
+  }, [product]);
 
   if (!product) return null;
 
@@ -41,6 +60,14 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
+          onWheel={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchMove={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           style={{
             position: 'absolute',
             inset: 0,
@@ -51,10 +78,12 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
         {/* Modal Window */}
         <motion.div
+          data-lenis-prevent="true"
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+          onWheel={(e) => e.stopPropagation()}
           style={{
             position: 'relative',
             zIndex: 1,
@@ -62,6 +91,8 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             maxWidth: 720,
             maxHeight: '90vh',
             overflowY: 'auto',
+            overscrollBehavior: 'contain',
+            WebkitOverflowScrolling: 'touch',
             background: '#1E1E1E',
             border: '1px solid rgba(188, 188, 188, 0.16)',
             borderRadius: 16,
