@@ -152,46 +152,24 @@ export default function ProductDrawer({ product, onClose }: ProductDrawerProps) 
             <div
               style={{
                 width: '100%',
-                aspectRatio: '4/3',
-                borderRadius: 16,
+                aspectRatio: '16/9',
+                borderRadius: 14,
                 background: '#1E1E1E',
-                border: '1px solid rgba(188, 188, 188, 0.16)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
                 overflow: 'hidden',
                 position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
               }}
             >
               <img
                 src={product.image}
                 alt={product.name}
                 style={{
-                  maxWidth: '85%',
-                  maxHeight: '85%',
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 16px 32px rgba(0, 0, 0, 0.5))',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
                 }}
               />
-              {product.weight && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 16,
-                    right: 16,
-                    padding: '4px 12px',
-                    borderRadius: 999,
-                    background: '#CFA556',
-                    color: '#161616',
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.68rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.08em',
-                  }}
-                >
-                  {product.weight}
-                </div>
-              )}
             </div>
 
             {/* Title & Tagline */}
