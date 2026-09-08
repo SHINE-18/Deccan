@@ -26,25 +26,26 @@ export default function StoryCraftSection({
       aria-labelledby="story-craft-heading"
       style={{
         position: 'relative',
-        padding: 'clamp(70px, 8vw, 110px) clamp(24px, 6vw, 100px)',
-        maxWidth: 1320,
-        margin: '0 auto',
+        padding: 'clamp(70px, 8vw, 110px) 0',
+        width: '100%',
         background: '#161616',
       }}
     >
-      <div className="story-editorial-grid">
-        {/* Left Column: Clean Visual Image Panel without bulky badges */}
-        <ScrollReveal direction="left" delay={0.1}>
-          <div
-            style={{
-              height: 'clamp(400px, 46vw, 540px)',
-              borderRadius: 16,
-              overflow: 'hidden',
-              position: 'relative',
-              background: '#181614',
-              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6)',
-            }}
-          >
+      <div className="editorial-container">
+        <div className="story-editorial-grid">
+          {/* Left Column: Clean Visual Image Panel without bulky badges */}
+          <ScrollReveal direction="left" delay={0.1}>
+            <div
+              style={{
+                width: '100%',
+                aspectRatio: '4 / 3',
+                borderRadius: 16,
+                overflow: 'hidden',
+                position: 'relative',
+                background: '#181614',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6)',
+              }}
+            >
             <img
               src="/crafted_passion_poster.jpg"
               alt="Deccan authentic spices, turmeric powder, and brass mortar"
@@ -207,6 +208,7 @@ export default function StoryCraftSection({
           )}
         </div>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }

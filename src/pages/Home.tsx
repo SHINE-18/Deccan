@@ -70,19 +70,17 @@ function HeritageSection() {
   return (
     <section
       id="heritage"
-      className="heritage-grid"
       aria-labelledby="heritage-heading"
       style={{
-        padding: 'clamp(80px, 10vw, 140px) clamp(24px, 6vw, 100px)',
-        maxWidth: 1320,
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 'clamp(40px, 6vw, 80px)',
-        alignItems: 'center',
+        width: '100%',
+        padding: 'clamp(80px, 9vw, 130px) 0',
+        background: '#161616',
+        position: 'relative',
       }}
     >
-      {/* Left: Clean, Left-Aligned Editorial Story & Collections */}
+      <div className="editorial-container">
+        <div className="heritage-grid">
+          {/* Left: Clean, Left-Aligned Editorial Story & Collections */}
       <div>
         <ScrollReveal direction="left">
           {/* Top Gold Accent Bar */}
@@ -283,7 +281,8 @@ function HeritageSection() {
       <ScrollReveal direction="right" delay={0.1}>
         <div
           style={{
-            height: 'clamp(380px, 46vw, 560px)',
+            width: '100%',
+            aspectRatio: '4 / 3',
             borderRadius: 16,
             overflow: 'hidden',
             position: 'relative',
@@ -318,6 +317,8 @@ function HeritageSection() {
           />
         </div>
       </ScrollReveal>
+        </div>
+      </div>
     </section>
   );
 }
@@ -342,17 +343,17 @@ function SignatureMasalas() {
       }}
     >
       <ScrollReveal>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          marginBottom: 40,
-          flexWrap: 'wrap',
-          gap: 24,
-          maxWidth: 1300,
-          margin: '0 auto 40px auto',
-          padding: '0 clamp(20px, 5vw, 80px)',
-        }}>
+        <div
+          className="editorial-container"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            marginBottom: 40,
+            flexWrap: 'wrap',
+            gap: 24,
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ height: 2, width: 36, background: '#CFA556' }} />
             <h2

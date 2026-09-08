@@ -693,6 +693,36 @@ input, textarea, select {
   }
 }
 
+/* ===== ULTRAWIDE GRID ALIGNMENT SYSTEM ===== */
+.editorial-container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 80px);
+  position: relative;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1600px) {
+  .editorial-container {
+    max-width: 1440px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .editorial-container {
+    max-width: 1560px;
+    padding: 0 clamp(40px, 5vw, 90px);
+  }
+}
+
+@media (min-width: 2560px) {
+  .editorial-container {
+    max-width: 1780px;
+    padding: 0 clamp(60px, 5vw, 120px);
+  }
+}
+
 /* ===== EDITORIAL TWO-COLUMN GRIDS ===== */
 .story-editorial-grid,
 .heritage-grid,
@@ -701,6 +731,23 @@ input, textarea, select {
   grid-template-columns: 1fr 1fr;
   gap: clamp(40px, 6vw, 80px);
   align-items: center;
+  width: 100%;
+}
+
+@media (min-width: 1920px) {
+  .story-editorial-grid,
+  .heritage-grid,
+  .chef-signature-grid {
+    gap: clamp(70px, 5vw, 100px);
+  }
+}
+
+@media (min-width: 2560px) {
+  .story-editorial-grid,
+  .heritage-grid,
+  .chef-signature-grid {
+    gap: clamp(90px, 6vw, 130px);
+  }
 }
 
 @media (max-width: 900px) {

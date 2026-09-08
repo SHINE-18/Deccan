@@ -21,7 +21,7 @@ export default function NavanyaHero() {
         justifyContent: 'center',
         overflow: 'hidden',
         background: '#161616',
-        padding: '120px clamp(24px, 6vw, 100px) 90px',
+        padding: '120px 0 90px',
       }}
     >
       {/* Past Design's Masala Spices Atmospheric Parallax Background */}
@@ -57,15 +57,20 @@ export default function NavanyaHero() {
         }}
       />
 
-      {/* Main Content Layout (Past Design Layout with ONLY the new text change) */}
+      {/* Main Content Layout — Aligned with Editorial Grid on Ultrawide */}
       <div
+        className="editorial-container"
         style={{
           position: 'relative',
           zIndex: 10,
-          maxWidth: 900,
-          width: '100%',
         }}
       >
+        <div
+          style={{
+            maxWidth: 900,
+            width: '100%',
+          }}
+        >
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
@@ -285,6 +290,7 @@ export default function NavanyaHero() {
             </Link>
           </motion.div>
         </motion.div>
+        </div>
       </div>
     </section>
   );

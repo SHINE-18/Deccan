@@ -94,17 +94,6 @@ export default function Header() {
                 }}
               >
                 {link.label}
-                {active && (
-                  <span style={{
-                    position: 'absolute',
-                    bottom: -4,
-                    left: 0,
-                    right: 0,
-                    height: 2,
-                    background: '#CFA556',
-                    borderRadius: 1,
-                  }} />
-                )}
               </Link>
             );
           })}
