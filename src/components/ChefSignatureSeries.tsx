@@ -436,7 +436,7 @@ export default function ChefSignatureSeries() {
                   fontSize: 'clamp(0.92rem, 1.02vw, 1rem)',
                   lineHeight: 1.68,
                   color: 'rgba(230, 218, 204, 0.82)',
-                  margin: '0 0 24px 0',
+                  margin: '0 0 20px 0',
                   maxWidth: 520,
                   fontWeight: 400,
                   textAlign: 'left',
@@ -444,13 +444,51 @@ export default function ChefSignatureSeries() {
               >
                 Most spice blends are made in factories. Ours start in a professional kitchen.
               </p>
+
+              {/* Quote Card (Moved under the text) */}
+              <div
+                style={{
+                  background: 'rgba(25, 24, 22, 0.65)',
+                  borderRadius: 12,
+                  padding: '16px 20px',
+                  margin: '0 0 24px 0',
+                  maxWidth: 520,
+                  boxShadow: '0 12px 32px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                    fontStyle: 'italic',
+                    fontSize: 'clamp(0.94rem, 1.05vw, 1.02rem)',
+                    color: '#F4EDE0',
+                    margin: '0 0 8px 0',
+                    lineHeight: 1.55,
+                  }}
+                >
+                  "My goal was simple — if you follow the pack instructions, your biryani should taste like a chef cooked it for you."
+                </p>
+                <p
+                  style={{
+                    margin: 0,
+                    color: '#CFA556',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    fontFamily: "'Inter', sans-serif",
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  — Chef Amey
+                </p>
+              </div>
             </ScrollReveal>
 
             {/* CTA Button matching website luxury standard */}
             <ScrollReveal direction="left" delay={0.3}>
               <div>
                 <Link
-                  to="/products"
+                  to="/products?category=signature-quality"
                   id="chef-signature-cta"
                   aria-label="Explore the Chef Amey Signature Series Collection"
                   onMouseEnter={() => setIsCtaHovered(true)}
@@ -493,12 +531,13 @@ export default function ChefSignatureSeries() {
             </ScrollReveal>
           </div>
 
-          {/* Right Column: Shelf Styling Image with Glassmorphic Quote */}
-          <ScrollReveal direction="right" delay={0.2}>
+          {/* Right Column: Clean Shelf Styling Image Panel (Unobstructed) */}
+          <ScrollReveal direction="right" delay={0.2} style={{ height: '100%', display: 'flex' }}>
             <div
+              className="chef-signature-image-equal"
               style={{
                 width: '100%',
-                aspectRatio: '4 / 3',
+                height: '100%',
                 borderRadius: 16,
                 overflow: 'hidden',
                 position: 'relative',
@@ -531,50 +570,6 @@ export default function ChefSignatureSeries() {
                   pointerEvents: 'none',
                 }}
               />
-
-              {/* Floating Glassmorphic Quote Card */}
-              <div
-                className="chef-quote-overlay"
-                style={{
-                  position: 'absolute',
-                  top: 20,
-                  right: 20,
-                  maxWidth: 290,
-                  background: 'rgba(19, 18, 16, 0.88)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  borderRadius: 12,
-                  padding: '18px 20px',
-                  boxShadow: '0 12px 32px rgba(0, 0, 0, 0.7)',
-                }}
-              >
-                <p
-                  style={{
-                    fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                    fontStyle: 'italic',
-                    fontSize: '0.92rem',
-                    color: '#F4EDE0',
-                    margin: '0 0 10px 0',
-                    lineHeight: 1.55,
-                  }}
-                >
-                  "My goal was simple — if you follow the pack instructions, your biryani should taste like a chef cooked it for you."
-                </p>
-                <p
-                  style={{
-                    margin: 0,
-                    color: '#CFA556',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.08em',
-                    fontFamily: "'Inter', sans-serif",
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  — Chef Amey
-                </p>
-              </div>
             </div>
           </ScrollReveal>
         </div>

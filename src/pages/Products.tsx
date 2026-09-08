@@ -1,5 +1,6 @@
 // src/pages/Products.tsx
 import { useState, useRef, useEffect } from 'react';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { categories, products, type Product } from '../data/products';
 import ProductDrawer from '../components/ProductDrawer';
@@ -18,17 +19,30 @@ function useIsMobile() {
 }
 
 export default function Products() {
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+
+  // Determine category target from URL query param (?category=...) or hash (#...)
+  const queryCat = searchParams.get('category');
+  const hashCat = location.hash ? location.hash.replace('#', '') : null;
+  const targetCategoryFromUrl = queryCat || hashCat;
+
+  const validInitialCategory = categories.some((c) => c.id === targetCategoryFromUrl)
+    ? targetCategoryFromUrl!
+    : (categories[0]?.id ?? '');
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [activeCategory, setActiveCategory] = useState(categories[0]?.id ?? '');
+  const [activeCategory, setActiveCategory] = useState(validInitialCategory);
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
-  const isManualScrolling = useRef(false);
+  // If a specific category was requested, freeze scroll spy until auto-scroll completes
+  const isManualScrolling = useRef(Boolean(targetCategoryFromUrl));
   const categoryRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const tabButtonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
-  const scrollToCategory = (catId: string) => {
+  const scrollToCategory = (catId: string, duration = 0.9) => {
     setActiveCategory(catId);
     isManualScrolling.current = true;
     const el = categoryRefs.current[catId];
@@ -39,11 +53,11 @@ export default function Products() {
       const offsetPosition = Math.max(0, elementPosition - offset);
 
       if ((window as any).lenis) {
-        (window as any).lenis.scrollTo(offsetPosition, { duration: 0.9 });
+        (window as any).lenis.scrollTo(offsetPosition, { duration });
       } else {
         window.scrollTo({
           top: offsetPosition,
-          behavior: 'smooth'
+          behavior: duration > 0 ? 'smooth' : 'auto'
         });
       }
     }
@@ -56,8 +70,22 @@ export default function Products() {
     // Re-enable scroll spy after scroll animation finishes
     setTimeout(() => {
       isManualScrolling.current = false;
-    }, 950);
+    }, Math.max(950, Math.round(duration * 1000) + 200));
   };
+
+  // Deep-link auto-scroll when category param or hash is present
+  useEffect(() => {
+    const currentTarget = searchParams.get('category') || (location.hash ? location.hash.replace('#', '') : null);
+    if (currentTarget && categories.some((c) => c.id === currentTarget)) {
+      setActiveCategory(currentTarget);
+      isManualScrolling.current = true;
+      // Allow DOM and layout measurements to stabilize
+      const timer = setTimeout(() => {
+        scrollToCategory(currentTarget, 0.85);
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams, location.hash]);
 
   // Scroll spy: update active category while sliding / scrolling down the page
   useEffect(() => {
@@ -91,12 +119,16 @@ export default function Products() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+
+    // Only run initial scroll spy check if no category was explicitly targeted via URL
+    if (!targetCategoryFromUrl) {
+      handleScroll();
+    }
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isMobile]);
+  }, [isMobile, targetCategoryFromUrl]);
 
   return (
     <div style={{ background: '#121212', minHeight: '100vh', color: '#FFFFFF', fontFamily: "'Inter', sans-serif" }}>

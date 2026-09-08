@@ -34,8 +34,14 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 
 // Scroll to top or target element on route/hash change
 function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, search } = useLocation();
   useEffect(() => {
+    const searchParams = new URLSearchParams(search);
+    // When navigating to /products with a category query param, Products page handles targeted scrolling & tab activation
+    if (pathname === '/products' && searchParams.has('category')) {
+      return;
+    }
+
     if (hash) {
       const id = hash.replace('#', '');
       setTimeout(() => {
@@ -57,7 +63,7 @@ function ScrollToTop() {
         window.scrollTo(0, 0);
       }
     }
-  }, [pathname, hash]);
+  }, [pathname, hash, search]);
   return null;
 }
 

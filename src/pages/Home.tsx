@@ -245,7 +245,7 @@ function HeritageSection() {
         {/* Clean Link */}
         <ScrollReveal delay={0.35}>
           <Link
-            to="/products"
+            to={heritageItems[activeIndex]?.id ? `/products?category=${heritageItems[activeIndex].id}` : '/products'}
             id="heritage-cta-explore"
             style={{
               display: 'inline-flex',
