@@ -1,6 +1,6 @@
 // src/components/ProductDrawer.tsx
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Flame, MapPin } from 'lucide-react';
+import { X, Flame } from 'lucide-react';
 import type { Product } from '../data/products';
 import { useEffect } from 'react';
 
@@ -174,19 +174,6 @@ export default function ProductDrawer({ product, onClose }: ProductDrawerProps) 
 
             {/* Title & Tagline */}
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <MapPin size={14} color="#CFA556" />
-                <span
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.72rem',
-                    color: '#CFA556',
-                    letterSpacing: '0.08em',
-                  }}
-                >
-                  {product.origin || 'Authentic Deccan Heritage Origin'}
-                </span>
-              </div>
               <h2
                 style={{
                   fontFamily: "'GT Sectra', 'Marcellus', 'Cormorant', serif",

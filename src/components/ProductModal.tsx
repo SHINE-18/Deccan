@@ -1,6 +1,6 @@
 // src/components/ProductModal.tsx
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Flame, MapPin, ShoppingBag, Check } from 'lucide-react';
+import { X, Flame, ShoppingBag, Check } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import type { Product } from '../data/products';
 
@@ -204,14 +204,6 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   </span>
                 )}
               </div>
-
-              {/* Origin */}
-              {product.origin && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#D4D4D4', fontSize: '0.82rem' }}>
-                  <MapPin size={13} color="#CFA556" />
-                  <span>Origin: {product.origin}</span>
-                </div>
-              )}
 
               {/* Spiciness Level Meter */}
               {product.spiciness && (

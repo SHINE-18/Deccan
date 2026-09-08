@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
 import Header from './components/Header';
@@ -69,7 +69,6 @@ function ScrollToTop() {
 
 export default function App() {
   const location = useLocation();
-  const navigate = useNavigate();
   const lenisRef = useRef<Lenis | null>(null);
 
   // Initialize Lenis smooth scroll
@@ -143,24 +142,11 @@ export default function App() {
     };
   }, []);
 
-  // On page load/refresh: redirect to homepage and scroll to top
-  // Only runs once on mount — uses PerformanceNavigationTiming to detect reload
+  // On page load/refresh: scroll to top (but preserve the current route for deep linking)
   useEffect(() => {
-    const navEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
-    const navType = navEntries?.[0]?.type;
-
-    // 'reload' = user hit F5 / Ctrl+R / browser refresh button
-    // 'navigate' = first visit or typed URL — also redirect to home
-    // 'back_forward' = browser back/forward — also redirect to home
-    // We skip only for Vite HMR which doesn't create new navigation entries
-    if (navType === 'reload' || navType === 'navigate' || navType === 'back_forward') {
-      if (window.location.pathname !== '/') {
-        navigate('/', { replace: true });
-      }
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
-      if (lenisRef.current) {
-        lenisRef.current.scrollTo(0, { immediate: true });
-      }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
