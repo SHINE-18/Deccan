@@ -1,8 +1,8 @@
 // src/components/ProductDrawer.tsx
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, Flame, Check, MapPin, ArrowRight } from 'lucide-react';
+import { X, Flame, MapPin } from 'lucide-react';
 import type { Product } from '../data/products';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface ProductDrawerProps {
   product: Product | null;
@@ -10,9 +10,7 @@ interface ProductDrawerProps {
   onReserve?: (product: Product) => void;
 }
 
-export default function ProductDrawer({ product, onClose, onReserve }: ProductDrawerProps) {
-  const [copied, setCopied] = useState(false);
-
+export default function ProductDrawer({ product, onClose }: ProductDrawerProps) {
   // Lock background page scroll and pause Lenis while the drawer is open
   useEffect(() => {
     if (!product) return;
@@ -33,12 +31,6 @@ export default function ProductDrawer({ product, onClose, onReserve }: ProductDr
   }, [product]);
 
   if (!product) return null;
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <AnimatePresence>
@@ -324,57 +316,6 @@ export default function ProductDrawer({ product, onClose, onReserve }: ProductDr
                   </span>
                 ))}
               </div>
-            </div>
-
-            {/* Action Bar */}
-            <div style={{ marginTop: 'auto', paddingTop: 20, display: 'flex', gap: 12, borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
-              <button
-                onClick={() => {
-                  if (onReserve) onReserve(product);
-                  onClose();
-                }}
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                  padding: '14px',
-                  borderRadius: 8,
-                  background: '#CFA556',
-                  color: '#161616',
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 600,
-                  fontSize: '0.92rem',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s ease',
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#E2B866'; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#CFA556'; }}
-              >
-                Reserve Blend <ArrowRight size={16} />
-              </button>
-
-              <button
-                onClick={handleCopyLink}
-                style={{
-                  padding: '14px 18px',
-                  borderRadius: 8,
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(188, 188, 188, 0.2)',
-                  color: '#FFFFFF',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '0.88rem',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                }}
-              >
-                {copied ? <Check size={16} color="#10B981" /> : <Sparkles size={16} color="#CFA556" />}
-                {copied ? 'Copied' : 'Share'}
-              </button>
             </div>
           </div>
         </motion.div>
